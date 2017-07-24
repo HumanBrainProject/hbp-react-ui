@@ -1,49 +1,71 @@
 # hbp-react-ui
 A library of useful user-interface components built with React and MobX.
 
-**Contents:**
+They are written in ES6 and require Babel to transpile, with the following (order-sensitive) parameters:
+
+```
+    "presets": [
+        "es2015",
+        "react" // Transpile React components to JavaScript
+    ],
+    "plugins": [
+        "transform-decorators-legacy",
+        "transform-class-properties" // This order is important: last-to-first
+    ],
+```
+
+Bootstrap is also required for styling and icon fonts.
+
+
+## **Install:**
+
+```
+npm install -D hbp-react-ui
+```
+
+## **Contents:**
 
 * Tree
 
-...please see the detailed descriptions below...
+Please see the detailed descriptions of the individual components below...
 
 ---
 
-## Tree
+### Tree
 
 Build a hierarchical tree with expandable/collapsible nodes. Each node consists of a name, a value and optional children. Clicking on a node notifies an optional event sink of the selected value.
 
 The tree is initialised with a JSON data structure of the form:
 ```
     {
-        "ontology": "MBA:840",
-        "label": "olfactory nerve",
+        "name": "olfactory nerve",
+        "value": "MBA:840",
         "children": [
             {
-                "ontology": "MBA:1016",
-                "label": "olfactory nerve layer of main olfactory bulb"
+                "name": "olfactory nerve layer of main olfactory bulb",
+                "value": "MBA:1016"
             },
             {
-                "ontology": "MBA:21",
-                "label": "lateral olfactory tract, general",
+                "name": "lateral olfactory tract, general",
+                "value": "MBA:21",
                 "children": [
                     {
-                        "ontology": "MBA:665",
-                        "label": "lateral olfactory tract, body"
+                        "name": "lateral olfactory tract, body",
+                        "value": "MBA:665"
                     },
                     {
-                        "ontology": "MBA:538",
-                        "label": "dorsal limb"
+                        "name": "lateral olfactory tract, body",
+                        "value": "MBA:538"
                     },
                     {
-                        "ontology": "MBA:459",
-                        "label": "accessory olfactory tract"
+                        "name": "lateral olfactory tract, body",
+                        "value": "MBA:459"
                     }
                 ]
             },
             {
-                "ontology": "MBA:900",
-                "label": "anterior commissure, olfactory limb"
+                "name": "anterior commissure, olfactory limb",
+                "value": "MBA:900"
             }
         ]
     }, etc...
