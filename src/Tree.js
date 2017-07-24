@@ -8,7 +8,7 @@ import { observer } from 'mobx-react';
  * Build a hierarchical tree with expandable/collapsible nodes. Each node consists of a name, a value and optional children
  * @param {String} path - Location for the notification
  * @param {Object} data - A json structure of form: { name, value, children: [] }
- * @param {Function} onAddValue - A function to call when a node is clicked
+ * @param {Function} onUpdateSelection - A function to call when a node is clicked
  */
 export default class Tree extends React.Component {
     /**
@@ -42,7 +42,6 @@ export default class Tree extends React.Component {
                         path={this.props.path}
                         data={child} 
                         onUpdateSelection={this.props.onUpdateSelection} 
-                        key={index}
                     />
                 );
             });
@@ -50,7 +49,7 @@ export default class Tree extends React.Component {
         return (
             <li style={{ listStyleType: 'none' }}>
                 { children != undefined && <i className={this.class} style={{ marginRight: '0.5em' }} onClick={this.toggle.bind(this)}></i> }
-                <a onClick={this.addValue.bind(this, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
+                <a onClick={this.updateSelection.bind(this, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
                 { children != undefined && <ul style={Object.assign({}, { marginLeft: '1em' }, this.displayChildren)}>{children}</ul> }
             </li>
         )
@@ -68,8 +67,8 @@ export default class Tree extends React.Component {
     /**
      * Pass an anonymous function that adds a value to the owning component so that it can update this component with the text it chooses
      */
-    addValue(value) {
-        console.log('Tree.addValue: ' + value);
+    updateSelection(value) {
+        console.log('Tree.updateSelection: ' + value);
         this.props.onUpdateSelection(this.props.path, value);
     }
 }

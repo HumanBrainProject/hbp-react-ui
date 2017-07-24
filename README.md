@@ -33,9 +33,32 @@ Please see the detailed descriptions of the individual components below...
 
 ### Tree
 
-Build a hierarchical tree with expandable/collapsible nodes. Each node consists of a name, a value and optional children. Clicking on a node notifies an optional event sink of the selected value.
+Build a hierarchical tree with expandable/collapsible nodes. Each node consists of a name, a value and optional children. Clicking on a node notifies an event sink of the selected value.
 
-The tree is initialised with a JSON data structure of the form:
+
+```
+import { Tree } from 'hbp-react-ui';
+
+class ShowMe extends React.Component {
+    render() {
+        return (
+            <div>
+                <Tree
+                    path={'/Category/Item'}
+                    data={data}
+                    onUpdateSelection={this.updateSelection.bind(this)}
+                />
+            </div>
+        );
+    }
+
+    updateSelection(path, value) {
+        window.alert(`ShowMe.updateSelection: ${path} - ${value}`);
+    }
+}
+```
+
+The tree is initialised with a JSON data structure, ```data```, of the following form:
 ```
     {
         "name": "olfactory nerve",

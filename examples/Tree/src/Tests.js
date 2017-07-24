@@ -5,22 +5,20 @@ import { Tree } from 'hbp-react-ui';
 
 class ShowMe extends React.Component {
     render() {
-        const data = { "value": "MBA:840", "name": "olfactory nerve", "children": [{ "value": "MBA:1016", "name": "olfactory nerve layer of main olfactory bulb" }, { "value": "MBA:21", "name": "lateral olfactory tract, general", "children": [{ "value": "MBA:665", "name": "lateral olfactory tract, body" }, { "value": "MBA:538", "name": "dorsal limb" }, { "value": "MBA:459", "name": "accessory olfactory tract" }] }, { "value": "MBA:900", "name": "anterior commissure, olfactory limb" }] };
+        const data = { "name": "olfactory nerve", "value": "MBA:840", "children": [ { "name": "olfactory nerve layer of main olfactory bulb", "value": "MBA:1016" }, { "name": "lateral olfactory tract, general", "value": "MBA:21", "children": [ { "name": "lateral olfactory tract, body", "value": "MBA:665" }, { "name": "lateral olfactory tract, body", "value": "MBA:538" }, { "name": "lateral olfactory tract, body", "value": "MBA:459" } ] }, { "name": "anterior commissure, olfactory limb", "value": "MBA:900" } ] };
         return (
             <div>
                 <Tree
                     path={'/Category/Item'}
                     data={data}
-                    onUpdateSelection={this.updateValue.bind(this)}
-                    key={0}
-                    ref={(childComponent) => { this.childComponent = childComponent; }}
+                    onUpdateSelection={this.updateSelection.bind(this)}
                 />
             </div>
         );
     }
 
-    updateValue(path, value) {
-        window.alert(`Component.updateValue: ${path} - ${value}`);
+    updateSelection(path, value) {
+        window.alert(`ShowMe.updateSelection: ${path} - ${value}`);
     }
 }
 
