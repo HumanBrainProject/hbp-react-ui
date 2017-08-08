@@ -10,15 +10,15 @@ class ShowMe extends React.Component {
             <div>
                 <Tree
                     path={'/Category/Item'}
+                    onUpdateValue={this.updateValue.bind(this)}
                     data={data}
-                    onUpdateSelection={this.updateSelection.bind(this)}
                 />
             </div>
         );
     }
 
-    updateSelection(path, value) {
-        window.alert(`ShowMe.updateSelection: ${path} - ${value}`);
+    updateValue(path, value) {
+        window.alert(`ShowMe.updateValue: ${path} - ${value}`);
     }
 }
 

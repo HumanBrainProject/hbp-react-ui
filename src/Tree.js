@@ -3,12 +3,14 @@ import React from 'react';
 import { observable, isObservableArray, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 
+import Styles from './Styles';
+
 @observer
 /**
- * Build a hierarchical tree with expandable/collapsible nodes. Each node consists of a name, a value and optional children
- * @param {String} path - Location for the notification
+ * Build a list of text items from a text selection or text input, optionally notifying a sink
+ * @param {String} path - Location for the notification e.g. '/abc/xyz'
+ * @param {Function} onUpdateValue - Called when the list of values changes
  * @param {Object} data - A json structure of form: { name, value, children: [] }
- * @param {Function} onUpdateSelection - A function to call when a node is clicked
  */
 export default class Tree extends React.Component {
     /**
@@ -16,16 +18,11 @@ export default class Tree extends React.Component {
      * @property {String} class - Expanded/collapsed icon
      * @property {Object} displayChildren - Show/hide child <ul>
      */
-    /**
-     * State:
- * @param {String} path - Location for the notification
-     * @property {Object} data - JSON
-     */
     constructor(props) {
         super(props);
     }
 
-    @observable class = 'glyphicon glyphicon-chevron-right';
+    @observable class = 'glyphicon glyphicon-plus';
     @observable displayChildren = { display: 'none' };
 
     /**
@@ -41,7 +38,8 @@ export default class Tree extends React.Component {
                     <Tree 
                         path={this.props.path}
                         data={child} 
-                        onUpdateSelection={this.props.onUpdateSelection} 
+                        onUpdateValue={this.props.onUpdateValue} 
+                        key={index}
                     />
                 );
             });
@@ -49,7 +47,7 @@ export default class Tree extends React.Component {
         return (
             <li style={{ listStyleType: 'none' }}>
                 { children != undefined && <i className={this.class} style={{ marginRight: '0.5em' }} onClick={this.toggle.bind(this)}></i> }
-                <a onClick={this.updateSelection.bind(this, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
+                <a onClick={this.addValue.bind(this, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
                 { children != undefined && <ul style={Object.assign({}, { marginLeft: '1em' }, this.displayChildren)}>{children}</ul> }
             </li>
         )
@@ -60,16 +58,16 @@ export default class Tree extends React.Component {
      */
     toggle() {
         console.log('Tree.toggle');
-        this.class = ( this.class == 'glyphicon glyphicon-chevron-right' ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-right' )
+        this.class = ( this.class == 'glyphicon glyphicon-plus' ? 'glyphicon glyphicon-minus' : 'glyphicon glyphicon-plus' )
         this.displayChildren.display = ( this.displayChildren.display == 'none' ? 'block' : 'none' );
     }
 
     /**
      * Pass an anonymous function that adds a value to the owning component so that it can update this component with the text it chooses
      */
-    updateSelection(value) {
-        console.log('Tree.updateSelection: ' + value);
-        this.props.onUpdateSelection(this.props.path, value);
+    addValue(value) {
+        console.log('Tree.addValue: ' + value);
+        this.props.onUpdateValue(this.props.path, value);
     }
 }
 
