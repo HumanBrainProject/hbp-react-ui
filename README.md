@@ -25,9 +25,28 @@ npm install -D hbp-react-ui
 
 ## **Contents:**
 
+* DynamicList
+* Select
 * Tree
 
+These components are not compatible with >v1.0.4 code as they now use name-value pair objects instead of primitive data types e.g.  ```{ name: 'Male', value: 'M' }```.
+This allows for a human-readable display form and an alternative identifier for storage.
+
 Please see the detailed descriptions of the individual components below...
+
+---
+
+### DynamicList
+
+Build a list of strings from a text selection or text input, optionally notifying a sink of updates.
+
+Each item in the list has a button to delete itself.
+
+---
+
+### Select
+
+Allows an item to be selected from a list, optionally notifying a sink
 
 ---
 
@@ -45,15 +64,15 @@ class ShowMe extends React.Component {
             <div>
                 <Tree
                     path={'/Category/Item'}
-                    data={data}
-                    onUpdateSelection={this.updateSelection.bind(this)}
+                    onSelect={this.onSelect.bind(this)} 
+                    data={this.data}
                 />
             </div>
         );
     }
 
-    updateSelection(path, value) {
-        window.alert(`ShowMe.updateSelection: ${path} - ${value}`);
+    onSelect(path, node) {
+        console.log(`onSelect: ${path} - {name: '${node.name}', value: '${node.value}'}`);
     }
 }
 ```
@@ -75,14 +94,6 @@ The tree is initialised with a JSON data structure, ```data```, of the following
                     {
                         "name": "lateral olfactory tract, body",
                         "value": "MBA:665"
-                    },
-                    {
-                        "name": "lateral olfactory tract, body",
-                        "value": "MBA:538"
-                    },
-                    {
-                        "name": "lateral olfactory tract, body",
-                        "value": "MBA:459"
                     }
                 ]
             },
@@ -96,7 +107,7 @@ The tree is initialised with a JSON data structure, ```data```, of the following
 
 The component recurses down the structure, creating ```<ul>```'s with ```<li>```'s. Each ```<li>``` contains an ```<a>``` and optionally another child ```<ul>```.
 
-![Tree](https://github.com/HumanBrainProject/hbp-react-ui/blob/master/images/tree.png)
+
 
 ---
 
