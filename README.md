@@ -23,6 +23,19 @@ Bootstrap is also required for styling and icon fonts.
 npm install -D hbp-react-ui
 ```
 
+
+## **Logging:**
+
+To enable console logging, add the following to the global namespace:
+```
+        <script>
+
+        _hbp_debug_ = true; // Enable console logging for all components
+
+        </script> 
+```
+
+
 ## **Contents:**
 
 * DynamicList

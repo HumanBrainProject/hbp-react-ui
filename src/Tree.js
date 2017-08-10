@@ -25,25 +25,24 @@ export default class Tree extends React.Component {
     @observable displayChildren = { display: 'none' };
 
     constructor(props) {
-        console.log('Tree.constructor');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor');
         super(props);
-        this.componentWillReceiveProps(props);
+        this.data = props.data || {};
     }
 
     componentDidMount() {
-        console.log('Tree.componentDidMount');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentDidMount');
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('Tree.componentWillReceiveProps');
-        this.data = nextProps.data || {};
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentWillReceiveProps');
     }
 
     /**
      * Render an expandable/collapsible tree structure at a DOM node based on json data
      */
     render() {
-        console.log('Tree.render: ' + this.props.path);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.render: ' + this.props.path);
         const name = this.data.name;
         const value = this.data.value;
         let children = undefined;
@@ -72,7 +71,7 @@ export default class Tree extends React.Component {
      * Expand/collapse this node of the tree
      */
     toggle() {
-        console.log('Tree.toggle');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.toggle');
         this.class = ( this.class == 'glyphicon glyphicon-plus' ? 'glyphicon glyphicon-minus' : 'glyphicon glyphicon-plus' )
         this.displayChildren.display = ( this.displayChildren.display == 'none' ? 'block' : 'none' );
     }
@@ -81,7 +80,7 @@ export default class Tree extends React.Component {
      * Pass a NameValue object to the sink
      */
     onSelect(name, value) {
-        console.log('Tree.addValue: ' + value);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.addValue: ' + value);
         this.props.onSelect(this.props.path, new NameValue(name, value));
     }
 }

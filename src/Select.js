@@ -26,26 +26,25 @@ export default class Select extends React.Component {
     @observable selection;
 
     constructor(props) {
-        console.log('Select.constructor');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.constructor');
         super(props);
-        this.componentWillReceiveProps(props);
+        this.options = props.options || [];
+        this.selection = props.selection || '';
     }
 
     componentDidMount() {
-        console.log('Select.componentDidMount');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentDidMount');
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('Select.componentWillReceiveProps');
-        this.options = nextProps.options || [];
-        this.selection = nextProps.selection || '';
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentWillReceiveProps');
     }
 
     /**
      * Render a dropdown list
      */
     render() {
-        console.log('Select.render: ' + this.props.path);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const options = this.renderOptions(this.options.items);
         return (
@@ -71,7 +70,7 @@ export default class Select extends React.Component {
      * Render individual items in the list, including the current selection
      */
     renderOptions(items) {
-        console.log('Select.renderOptions');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.renderOptions');
         return items.map((item, index) => {
             if (item.value == this.selection) {
                 return (
@@ -89,7 +88,7 @@ export default class Select extends React.Component {
      * Notify the sink when the selection changes
      */
     handleSelectionChange(e) {
-        console.log('Select.handleSelectionChange: ' + e.target.value);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.handleSelectionChange: ' + e.target.value);
         this.selection = e.target.value;
         if (this.selection != '') {
             const option = this.options.findByValue(this.selection);
@@ -104,7 +103,7 @@ export default class Select extends React.Component {
      * Notify the sink when there is no selection
      */
     clearSelection() {
-        console.log('Select.clearSelection');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.clearSelection');
         this.selection = '';
         this.props.onSelect(this.props.path, '');
     }

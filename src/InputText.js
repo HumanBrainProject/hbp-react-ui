@@ -21,24 +21,27 @@ export default class InputText extends React.Component {
      * @property {String} value - The current value
      */
     constructor(props) {
+        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.constructor');
         super(props);
-        this.description = this.props.description || '';
+        this.value = props.value || '';
+        this.description = props.description || '';
     }
 
     @observable value = this.props.value || '';
 
     componentDidMount() {
+        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.componentDidMount');
     }
 
     componentWillReceiveProps(nextProps) {
-        this.value = nextProps.value || '';
+        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.componentWillReceiveProps');
     }
 
     /**
      * Render a simple text box
      */
     render() {
-        console.log('InputText.render: ' + this.props.path);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-\s]+$/)); // The last word in the path
         return (
             <div>
@@ -58,7 +61,7 @@ export default class InputText extends React.Component {
      * Notify the sink when the value changes
      */
     handleChange(e) {
-        console.log('InputText.handleChange: ' + e.target.value);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.handleChange: ' + e.target.value);
         this.value = e.target.value;
         this.props.onUpdateValue(this.props.path, this.value);
     }

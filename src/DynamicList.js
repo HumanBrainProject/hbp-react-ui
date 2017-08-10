@@ -35,25 +35,24 @@ export default class DynamicList extends React.Component {
     @observable showAlert = false;
 
     constructor(props) {
-        console.log('DynamicList.constructor');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.constructor');
         super(props);
-        this.componentWillReceiveProps(props);
+        this.list = props.list || new NameValueArray();
     }
 
     componentDidMount() {
-        console.log('DynamicList.componentDidMount');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentDidMount');
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('DynamicList.componentWillReceiveProps');
-        this.list = nextProps.list || new NameValueArray();
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentWillReceiveProps');
     }
 
     /**
      * Render an 'Add' button and a list of 'Value' buttons, each with a 'Delete' button
      */
     render() {
-        console.log('DynamicList.render: ' + this.props.path);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const header = (
             <div style={{ backgroundColor: '#f6f6f6', borderBottom: '1px solid #ddd', padding: '3px 40px' }}>
@@ -116,7 +115,7 @@ export default class DynamicList extends React.Component {
      * Pass an anonymous function that adds a value to the owning component so that it can update this component with the text it chooses
      */
     addToList() {
-        console.log('DynamicList.addToList');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.addToList');
         this.props.onAddItem(
             (value) => {
                 if (value.length) {
@@ -137,7 +136,7 @@ export default class DynamicList extends React.Component {
      * Remove the specified value
      */
     removeFromList(valueIndex) {
-        console.log('DynamicList.removeFromList');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.removeFromList');
         this.list.items.splice(valueIndex, 1);
         this.props.onUpdateList(this.props.path, this.list.items.toJS());
     }
@@ -146,7 +145,7 @@ export default class DynamicList extends React.Component {
      * Update the current value from the text input
      */
     onChange(e) {
-        console.log('DynamicList.onChange');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.onChange');
         this.value = e.target.value;
     }
 
@@ -154,7 +153,7 @@ export default class DynamicList extends React.Component {
      * Show the text input modal
      */
     open() {
-        console.log('DynamicList.open');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.open');
         this.showEnterMetadataModal = true;
     }
 
@@ -162,7 +161,7 @@ export default class DynamicList extends React.Component {
      * Hide the text input modal and, optionally, add the current value
      */
     close(OK) {
-        console.log('DynamicList.close');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.close');
         this.showEnterMetadataModal = false;
         if (OK) {
             if (this.value.length) {
