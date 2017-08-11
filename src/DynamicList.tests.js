@@ -1,25 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
-
 import Styles from './Styles';
-import NameValueArray from './NameValueArray';
 import DynamicList from './DynamicList';
 
-@observer
 class Component extends React.Component {
-    @observable list = new NameValueArray();
-
     constructor(props) {
-        console.log('Component.constructor');
         super(props);
-        this.list.addFromJSON([{ name: 'Male', value: 'M' }, { name: 'Female', value: 'F' },]);
+        this.state = { items: ['Value A','Value B','Value C',] };
     }
 
     render() {
         console.log('Component.render');
+        // const items = ['Value A','Value B','Value C',];
         return (
             <div style={Styles.styleTable()}>
                 <div style={Styles.styleRowGroup()}>
@@ -28,7 +21,7 @@ class Component extends React.Component {
                             <DynamicList
                                 path={'/Category/Item'}
                                 onUpdateList={this.onUpdateList.bind(this)} 
-                                list={this.list}
+                                items={this.state.items}
                                 onAddItem={this.onAddItem.bind(this)}
                                 ref={(childComponent) => { this.childComponent = childComponent; }}
                             />
@@ -39,13 +32,13 @@ class Component extends React.Component {
         );
     }
 
-    onAddItem(addItemAction) {
-        console.log('Component.addItem');
-        addItemAction({ name: 'Other', value: 'O' });
+    onAddItem(onAddItemAction) {
+        console.log('Component.onAddItem');
+        onAddItemAction(''); // Value D
     }
 
-    onUpdateList(path, list) {
-        console.log(`Component.onUpdateList: ${path} - ${this.list.getValues().join()}`);
+    onUpdateList(path, values) {
+        console.log(`Component.onUpdateList: ${path} - ${values.join()}`);
     }
 }
 
@@ -66,10 +59,33 @@ QUnit.module('DynamicList', function (hooks) {
 
     QUnit.test('rendered', function (assert) {
         console.log('QUnit.rendered');
-        var component = assert.test.module.testEnvironment.component;
         var component = assert.test.module.testEnvironment.component.childComponent;
         assert.ok(typeof (component.props) == 'object', 'passed');
     });
+
+    QUnit.test('updateParent', function (assert) {
+        console.log('QUnit.updateParent');
+        var component = assert.test.module.testEnvironment.component;
+        var length = component.state.items.length;
+        component.setState(
+            (prevState, props) => {return {items: (prevState.items.push('Value D'), prevState.items)};}
+        );
+        assert.ok(component.state.items.length == length + 1, 'passed');
+    });
+
+    // QUnit.test('state', function(assert) {
+    //     console.log('QUnit.state');
+    //     var component = assert.test.module.testEnvironment.component.childComponent;
+    //     assert.ok(typeof(component.state.items) == 'object', 'passed');
+    //     console.log(component.state.items);
+    // });
+
+    // QUnit.test('queryData', function (assert) {
+    //     console.log('QUnit.queryData');
+    //     var component = assert.test.module.testEnvironment.component.childComponent;
+    //     component.props.store.queryData(() => {});
+    //     assert.ok(true);
+    // });
 
     // hooks.after(function (assert) { // Not getting called here for some reason
     //     console.log('QUnit.hooks.after');

@@ -16,20 +16,20 @@ import NameValueArray from './NameValueArray';
 /**
  * Build a list of strings from a text selection or text input, optionally notifying a sink
  * @param {String} path - Location for the notification e.g. '/abc/xyz'
- * @param {Function} onUpdateList - Called when the list of list changes
+ * @param {Function} onUpdateList - Called when the list of items changes
  * @param {Object} header - An optional customised header component
  * @param {String} description - An optional tooltip
- * @param {Array<String>} list - An array of strings representing the initial list
+ * @param {Array<String>} items - An array of strings representing the initial list
  * @param {Function} onAddItem - A function to call when the 'Add' button is clicked
  */
 export default class DynamicList extends React.Component {
     /**
      * State:
-     * @property {Array<String>} list - An array of strings representing the current list
+     * @property {Array<String>} items - An array of strings representing the current list
      * @property {String} value - The current value
      * @property {Bool} showEnterMetadataModal - Show input text
      */
-    @observable list = this.props.list || new NameValueArray();
+    @observable items = this.props.items || [];
     @observable value = '';
     @observable showEnterMetadataModal = false;
     @observable showAlert = false;
@@ -37,7 +37,6 @@ export default class DynamicList extends React.Component {
     constructor(props) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.constructor');
         super(props);
-        this.list = props.list || new NameValueArray();
     }
 
     componentDidMount() {
@@ -46,6 +45,7 @@ export default class DynamicList extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentWillReceiveProps');
+        this.items = nextProps.items || this.props.items;
     }
 
     /**
@@ -59,11 +59,11 @@ export default class DynamicList extends React.Component {
                 <Button bsStyle='primary' onClick={this.addToList.bind(this)} title={this.props.description}>{title}</Button>
             </div>
         );
-        const list = this.list.items.map((item, index) => {
+        const items = this.items.map((item, index) => {
             return (
                 <div key={index} className='text-left'>
                     <Button onClick={this.removeFromList.bind(this, index)}>
-                        {item.name}
+                        {( typeof(item) == 'string' ? item : ( typeof(item) == 'object' ? item.name : '' ) )}
                         <Glyphicon glyph='remove' style={{ marginLeft: '8px' }} />
                     </Button>
                 </div>
@@ -73,7 +73,7 @@ export default class DynamicList extends React.Component {
             <div>
                 {this.props.header || header}
                 <div style={{ padding: '10px 10px' }}>
-                    {list}
+                    {items}
                 </div>
                 <Modal show={this.showEnterMetadataModal} onHide={this.close}>
                     <Modal.Header>
@@ -120,8 +120,8 @@ export default class DynamicList extends React.Component {
             (value) => {
                 if (value.length) {
                     if (!(value.length > 256)) {
-                        this.list.items.push(new NameValue(value, value));
-                        this.props.onUpdateList(this.props.path, this.list.items.toJS());
+                        this.items.push(value);
+                        this.props.onUpdateList(this.props.path, this.items.toJS());
                     } else {
                         this.showAlert = true;
                     }
@@ -137,8 +137,8 @@ export default class DynamicList extends React.Component {
      */
     removeFromList(valueIndex) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.removeFromList');
-        this.list.items.splice(valueIndex, 1);
-        this.props.onUpdateList(this.props.path, this.list.items.toJS());
+        this.items.splice(valueIndex, 1);
+        this.props.onUpdateList(this.props.path, this.items.toJS());
     }
 
     /**
@@ -165,8 +165,8 @@ export default class DynamicList extends React.Component {
         this.showEnterMetadataModal = false;
         if (OK) {
             if (this.value.length) {
-                this.list.items.push(new NameValue(this.value, this.value));
-                this.props.onUpdateList(this.props.path, this.list.items.toJS());
+                this.items.push(this.value);
+                this.props.onUpdateList(this.props.path, this.items.toJS());
             }
         }
     }
