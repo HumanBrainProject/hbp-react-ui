@@ -48,8 +48,8 @@ export default class Select extends React.Component {
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const options = this.renderOptions(this.options.items);
         return (
-            <div>
-                <Panel header={title} className='text-center' title={this.props.description} style={Styles.stylePanel()}>
+            <div style={{ margin: '0 2px 2px 0' }}>
+                <Panel header={title} bsStyle='info' className='text-center' title={this.props.description}>
                     <FormGroup controlId='formControlsSelect' style={{ marginBottom: '0' }}>
                         <FormControl
                             componentClass='select'
@@ -104,8 +104,8 @@ export default class Select extends React.Component {
      */
     clearSelection() {
         if (typeof(_hbp_debug_) != 'undefined') console.log('Select.clearSelection');
-        this.selection = '';
-        this.props.onSelect(this.props.path, '');
+        this.selection = undefined;
+        this.props.onSelect(this.props.path, this.selection);
     }
 }
 

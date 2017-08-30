@@ -55,7 +55,7 @@ export default class DynamicList extends React.Component {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const header = (
-            <div style={{ backgroundColor: '#f6f6f6', borderBottom: '1px solid #ddd', padding: '3px 40px' }}>
+            <div className='text-center'>
                 <Button bsStyle='primary' onClick={this.addToList.bind(this)} title={this.props.description}>{title}</Button>
             </div>
         );
@@ -70,11 +70,10 @@ export default class DynamicList extends React.Component {
             );
         });
         return (
-            <div>
-                {this.props.header || header}
-                <div style={{ padding: '10px 10px' }}>
+            <div style={{ margin: '0 2px 2px 0' }}>
+                <Panel header={this.props.header || header} bsStyle='info'>
                     {items}
-                </div>
+                </Panel>
                 <Modal show={this.showEnterMetadataModal} onHide={this.close}>
                     <Modal.Header>
                         <Modal.Title>Enter Metadata</Modal.Title>

@@ -44,8 +44,8 @@ export default class InputText extends React.Component {
         if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-\s]+$/)); // The last word in the path
         return (
-            <div>
-                <Panel header={title} className='text-center' title={this.description} style={Styles.stylePanel()}>
+            <div style={{ margin: '0 2px 2px 0' }}>
+                <Panel header={title} bsStyle='info' className='text-center' title={this.description}>
                     <FormControl
                         type='text'
                         placeholder='type...'

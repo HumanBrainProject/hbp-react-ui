@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
+
 import Styles from './Styles';
 import DynamicList from './DynamicList';
 
+@observer
 class Component extends React.Component {
+    @observable items = ['Value A','Value B','Value C',];
+
     constructor(props) {
         super(props);
-        this.state = { items: ['Value A','Value B','Value C',] };
     }
 
     render() {
@@ -21,7 +26,7 @@ class Component extends React.Component {
                             <DynamicList
                                 path={'/Category/Item'}
                                 onUpdateList={this.onUpdateList.bind(this)} 
-                                items={this.state.items}
+                                items={this.items}
                                 onAddItem={this.onAddItem.bind(this)}
                                 ref={(childComponent) => { this.childComponent = childComponent; }}
                             />
@@ -66,11 +71,9 @@ QUnit.module('DynamicList', function (hooks) {
     QUnit.test('updateParent', function (assert) {
         console.log('QUnit.updateParent');
         var component = assert.test.module.testEnvironment.component;
-        var length = component.state.items.length;
-        component.setState(
-            (prevState, props) => {return {items: (prevState.items.push('Value D'), prevState.items)};}
-        );
-        assert.ok(component.state.items.length == length + 1, 'passed');
+        var length = component.items.length;
+        component.items.push('Value D');
+        assert.ok(component.items.length == length + 1, 'passed');
     });
 
     // QUnit.test('state', function(assert) {
