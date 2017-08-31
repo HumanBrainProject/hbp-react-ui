@@ -1,2 +1,9 @@
 /node_modules
 /dist
+release.txt
+tests.bundle.js
+tests.bundle.js.map
+tests.html
+tests.js
+webpack.config.js
+webpack.config.tests.js

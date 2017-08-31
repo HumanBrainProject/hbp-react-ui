@@ -16,6 +16,7 @@ class Styles {
     styleBorder() {return  { border: '1px solid #ddd' };}
     stylePanel() {return  { border: 'none', boxShadow: 'none', WebkitBoxShadow: 'none', marginBottom: '0' };}
     styleFullWidth() {return  { width: '100%', maxWidth: '100%' };}
+    styleContainer() {return  { margin: '0 2px 2px 0', width: '198px' };}
     styleSelect() {return  { marginLeft: '20px' };}
     styleMarginBottom() {return  { marginBottom: '8px' };}
 }

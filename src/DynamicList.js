@@ -1,4 +1,5 @@
 import React from 'react';
+import { bootstrapUtils } from 'react-bootstrap/lib/utils'
 import { Button } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
@@ -11,6 +12,8 @@ import { observer } from 'mobx-react';
 import Styles from './Styles';
 import NameValue from './NameValue';
 import NameValueArray from './NameValueArray';
+
+bootstrapUtils.addStyle(Button, 'custom');
 
 @observer
 /**
@@ -56,9 +59,11 @@ export default class DynamicList extends React.Component {
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const header = (
             <div className='text-center'>
-                <Button bsStyle='primary' onClick={this.addToList.bind(this)} title={this.props.description}>{title}</Button>
+                <style type='text/css'>{'.btn-custom {padding-top: 4px; padding-bottom: 4px; background-color: #428bca; color: white;}'}</style>
+                <Button bsStyle='custom' onClick={this.addToList.bind(this)} title={this.props.description}>{title}</Button>
             </div>
         );
+        // const customButtonStyle={'paddingTop': '4px', 'paddingBottom': '4px'};
         const items = this.items.map((item, index) => {
             return (
                 <div key={index} className='text-left'>
@@ -70,8 +75,9 @@ export default class DynamicList extends React.Component {
             );
         });
         return (
-            <div style={{ margin: '0 2px 2px 0' }}>
-                <Panel header={this.props.header || header} bsStyle='info'>
+            <div style={Styles.styleContainer()}>
+                <style type='text/css'>{'.DynamicListPanel .panel-heading {padding-top: 6px; padding-bottom: 6px;}'}</style>
+                <Panel className='DynamicListPanel' header={this.props.header || header} bsStyle='info' style={{ paddingBottom: '63px' }}>
                     {items}
                 </Panel>
                 <Modal show={this.showEnterMetadataModal} onHide={this.close}>

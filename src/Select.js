@@ -48,7 +48,7 @@ export default class Select extends React.Component {
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const options = this.renderOptions(this.options.items);
         return (
-            <div style={{ margin: '0 2px 2px 0' }}>
+            <div style={Styles.styleContainer()}>
                 <Panel header={title} bsStyle='info' className='text-center' title={this.props.description}>
                     <FormGroup controlId='formControlsSelect' style={{ marginBottom: '0' }}>
                         <FormControl
