@@ -30,6 +30,7 @@ export default class Select extends React.Component {
         super(props);
         this.options = props.options || [];
         this.selection = props.selection || '';
+        this.style = props.style || Styles.styleContainer();
     }
 
     componentDidMount() {
@@ -38,6 +39,9 @@ export default class Select extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentWillReceiveProps');
+        if (nextProps.selection != this.props.selection) { // Re-initialised
+            this.selection = nextProps.selection;
+        }
     }
 
     /**
@@ -48,7 +52,7 @@ export default class Select extends React.Component {
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const options = this.renderOptions(this.options.items);
         return (
-            <div style={Styles.styleContainer()}>
+            <div style={this.style}>
                 <Panel header={title} bsStyle='info' className='text-center' title={this.props.description}>
                     <FormGroup controlId='formControlsSelect' style={{ marginBottom: '0' }}>
                         <FormControl
@@ -104,7 +108,7 @@ export default class Select extends React.Component {
      */
     clearSelection() {
         if (typeof(_hbp_debug_) != 'undefined') console.log('Select.clearSelection');
-        this.selection = undefined;
+        this.selection = '';
         this.props.onSelect(this.props.path, this.selection);
     }
 }

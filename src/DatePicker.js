@@ -12,18 +12,22 @@ import Styles from './Styles';
  * @param {String} path - Location for the notification
  * @param {Function} onUpdateValue - Called when the value changes
  * @param {String} value - The initial date value
+ * @param {String} description - The tooltip
  */
 export default class DatePicker extends React.Component {
     /**
      * State:
      * @property {String} value - The current date value
      */
+    @observable value;
+
     constructor(props) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DatePicker.constructor');
         super(props);
+        this.value = props.value || '';
+        this.description = props.description || '';
+        this.style = props.style || Styles.styleContainer();
     }
-
-    @observable value = this.props.value || ''; // A single string date value
 
     componentDidMount() {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DatePicker.componentDidMount');
@@ -31,7 +35,9 @@ export default class DatePicker extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DatePicker.componentWillReceiveProps');
-        this.value = nextProps.value || '';
+        if (nextProps.value != this.props.value) { // Re-initialised
+            this.value = nextProps.value;
+        }
     }
 
     /**
@@ -41,7 +47,7 @@ export default class DatePicker extends React.Component {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DatePicker.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         return (
-            <div style={{ margin: '0 2px 2px 0', width: '198px' }}>
+            <div style={this.style}>
                 <style type='text/css'>{'.DatePickerPanel .panel-body {padding: 12px; height: 57px;}'}</style>
                 <Panel className='DatePickerPanel' header={title} bsStyle='info' title={this.props.description} style={{ paddingBottom: '8px' }}>
                     <input type='date' onChange={this.handleChange.bind(this)} value={this.value}/>

@@ -32,14 +32,17 @@ export default class DynamicList extends React.Component {
      * @property {String} value - The current value
      * @property {Bool} showEnterMetadataModal - Show input text
      */
-    @observable items = this.props.items || [];
-    @observable value = '';
+    @observable items;
+    @observable value;
     @observable showEnterMetadataModal = false;
     @observable showAlert = false;
 
     constructor(props) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.constructor');
         super(props);
+        this.items = props.items || [];
+        this.value = props.value || '';
+        this.style = props.style || Styles.styleContainer();
     }
 
     componentDidMount() {
@@ -48,7 +51,9 @@ export default class DynamicList extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentWillReceiveProps');
-        this.items = nextProps.items || this.props.items;
+        if (nextProps.items != this.props.items) { // Re-initialised
+            this.items = nextProps.items;
+        }
     }
 
     /**
@@ -75,7 +80,7 @@ export default class DynamicList extends React.Component {
             );
         });
         return (
-            <div style={Styles.styleContainer()}>
+            <div style={this.style}>
                 <style type='text/css'>{'.DynamicListPanel .panel-heading {padding-top: 6px; padding-bottom: 6px;}'}</style>
                 <Panel className='DynamicListPanel' header={this.props.header || header} bsStyle='info' style={{ paddingBottom: '63px' }}>
                     {items}
@@ -170,8 +175,12 @@ export default class DynamicList extends React.Component {
         this.showEnterMetadataModal = false;
         if (OK) {
             if (this.value.length) {
-                this.items.push(this.value);
-                this.props.onUpdateList(this.props.path, this.items.toJS());
+                if (!(this.value.length > 256)) {
+                    this.items.push(this.value);
+                    this.props.onUpdateList(this.props.path, this.items.toJS());
+                } else {
+                    this.showAlert = true;
+                }
             }
         }
     }

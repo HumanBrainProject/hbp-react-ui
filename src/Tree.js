@@ -36,6 +36,9 @@ export default class Tree extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentWillReceiveProps');
+        if (nextProps.data != this.props.data) { // Re-initialised
+            this.data = nextProps.data;
+        }
     }
 
     /**
@@ -80,7 +83,7 @@ export default class Tree extends React.Component {
      * Pass a NameValue object to the sink
      */
     onSelect(name, value) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.addValue: ' + value);
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.onSelect: ' + value);
         this.props.onSelect(this.props.path, new NameValue(name, value));
     }
 }

@@ -20,14 +20,15 @@ export default class InputText extends React.Component {
      * State:
      * @property {String} value - The current value
      */
+    @observable value;
+
     constructor(props) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.constructor');
         super(props);
         this.value = props.value || '';
         this.description = props.description || '';
+        this.style = props.style || Styles.styleContainer();
     }
-
-    @observable value = this.props.value || '';
 
     componentDidMount() {
         if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.componentDidMount');
@@ -35,6 +36,9 @@ export default class InputText extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.componentWillReceiveProps');
+        if (nextProps.value != this.props.value) { // Re-initialised
+            this.value = nextProps.value;
+        }
     }
 
     /**
@@ -44,7 +48,7 @@ export default class InputText extends React.Component {
         if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-\s]+$/)); // The last word in the path
         return (
-            <div style={Styles.styleContainer()}>
+            <div style={this.style}>
                 <Panel header={title} bsStyle='info' className='text-center' title={this.description}>
                     <FormControl
                         type='text'
