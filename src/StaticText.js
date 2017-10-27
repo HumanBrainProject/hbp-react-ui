@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////
-// File        : InputText.js
+// File        : StaticText.js
 // Description : 
 
 // Imports : 
@@ -11,19 +11,19 @@ import { Panel } from 'react-bootstrap';
 import { observable, isObservableArray } from 'mobx';
 import { observer, action } from 'mobx-react';
 
-import InputTextStyles from './InputTextStyles';
+import StaticTextStyles from './StaticTextStyles';
 import BaseClass from './BaseClass';
 
 // Class Definition
 @observer
 export default
-class InputText extends BaseClass {
+class StaticText extends BaseClass {
 // Attributes
     @observable value;
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.constructor: ' + JSON.stringify(props));
         super(props);
         this.value = props.value || '';
         this.description = props.description || '';
@@ -39,12 +39,9 @@ class InputText extends BaseClass {
         return (
             <div style={this.style}>
                 <Panel header={this.title} bsStyle='info' className='text-center' title={this.description}>
-                    <FormControl
-                        type='text'
-                        placeholder='type...'
-                        onChange={this.onChange.bind(this)}
-                        value={this.value}
-                        />
+                    <FormControl.Static>
+                        {this.value}
+                    </FormControl.Static>
                 </Panel>
             </div>
         );
@@ -54,7 +51,7 @@ class InputText extends BaseClass {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.componentWillReceiveProps: ' + JSON.stringify(nextProps));
         if (nextProps.value != this.props.value) { // Re-initialised
             this.value = nextProps.value;
         }
@@ -83,11 +80,6 @@ class InputText extends BaseClass {
     }
 
     renderBody() {
-    }
-
-    onChange(event) {
-        this.value = event.target.value;
-        this.props.onUpdateValue(this.props.path, this.value);
     }
 
 

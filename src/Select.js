@@ -1,3 +1,9 @@
+///////////////////////////////////////////////////////////
+// File        : Select.js
+// Description : 
+
+// Imports : 
+
 import React from 'react';
 import { FormControl } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
@@ -6,59 +12,41 @@ import { Panel } from 'react-bootstrap';
 import { observable, isObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
 
-import Styles from './Styles';
+import SelectStyles from './SelectStyles';
+import BaseClass from './BaseClass';
 
+// Class Definition
 @observer
-/**
- * Allows an item to be selected from a list of name-value pair objects, optionally notifying a sink
- * @param {String} path - Location for the notification
- * @param {Function} onSelect - Called when the selection changes
- * @param {Array<Object>} options - An array of objects with name and value properties, representing the possible options
- * @param {String} selection - The initially selected value
- */
-export default class Select extends React.Component {
-    /**
-     * State:
-     * @property {Array<Object>} options - The current options
-     * @property {String} selection - The current selection
-     */
+export default
+class Select extends BaseClass {
+// Attributes
     @observable options;
     @observable selection;
 
+// Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.constructor');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.constructor: ' + JSON.stringify(props));
         super(props);
         this.options = props.options || [];
         this.selection = props.selection || '';
-        this.style = props.style || Styles.styleContainer();
+        this.style = props.style || SelectStyles.styleContainer();
     }
 
-    componentDidMount() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentDidMount');
+
+// Operations
+    componentWillMount() {
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentWillReceiveProps');
-        if (nextProps.selection != this.props.selection) { // Re-initialised
-            this.selection = nextProps.selection;
-        }
-    }
-
-    /**
-     * Render a dropdown list
-     */
     render() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.render: ' + this.props.path);
-        const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const options = this.renderOptions(this.options.items);
         return (
             <div style={this.style}>
-                <Panel header={title} bsStyle='info' className='text-center' title={this.props.description}>
+                <Panel header={this.title} bsStyle='info' className='text-center' title={this.props.description}>
                     <FormGroup controlId='formControlsSelect' style={{ marginBottom: '0' }}>
                         <FormControl
                             componentClass='select'
                             placeholder='select'
-                            onChange={this.handleSelectionChange.bind(this)}
+                            onChange={this.onChange.bind(this)}
                             value={this.selection}
                         >
                             {this.selection == '' ? <option value='' selected>select...</option> : <option value=''>select...</option>}
@@ -70,11 +58,45 @@ export default class Select extends React.Component {
         );
     }
 
-    /**
-     * Render individual items in the list, including the current selection
-     */
+    componentDidMount() {
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (nextProps.options != this.props.options) { // Re-initialised
+            this.options = nextProps.options;
+        }
+        if (nextProps.selection != this.props.selection) { // Re-initialised
+            this.selection = nextProps.selection;
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return super.shouldComponentUpdate();
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+    }
+
+    componentDidUpdate(prevProps,prevState) {
+    }
+
+    componentWillUnmount() {
+    }
+
+    componentDidCatch(error,info) {
+    }
+
+    renderContainer() {
+    }
+
+    renderHeader() {
+    }
+
+    renderBody() {
+    }
+
     renderOptions(items) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.renderOptions');
         return items.map((item, index) => {
             if (item.value == this.selection) {
                 return (
@@ -88,12 +110,8 @@ export default class Select extends React.Component {
         });
     }
 
-    /**
-     * Notify the sink when the selection changes
-     */
-    handleSelectionChange(e) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.handleSelectionChange: ' + e.target.value);
-        this.selection = e.target.value;
+    onChange(event) {
+        this.selection = event.target.value;
         if (this.selection != '') {
             const option = this.options.findByValue(this.selection);
             if (option)
@@ -103,13 +121,13 @@ export default class Select extends React.Component {
         }
     }
 
-    /**
-     * Notify the sink when there is no selection
-     */
     clearSelection() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.clearSelection');
         this.selection = '';
         this.props.onSelect(this.props.path, this.selection);
     }
+
+
 }
+
+// Exports
 

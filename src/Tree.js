@@ -1,51 +1,40 @@
+///////////////////////////////////////////////////////////
+// File        : Tree.js
+// Description : 
+
+// Imports : 
+
 import React from 'react';
 
 import { observable, isObservableArray, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 
-import Styles from './Styles';
+import TreeStyles from './TreeStyles';
+import BaseClass from './BaseClass';
 import NameValue from './NameValue';
 
+// Class Definition
 @observer
-/**
- * Build a tree from json data and notify a sink when nodes are selected
- * @param {String} path - Location for the notification e.g. '/abc/xyz'
- * @param {Function} onSelect - Called when a node of the tree is selected
- * @param {Object} data - A json structure of form: { name, value, children: [] }
- */
-export default class Tree extends React.Component {
-    /**
-     * State:
-     * @property {String} data - The current data
-     * @property {String} class - Expanded/collapsed icon
-     * @property {Object} displayChildren - Show/hide child <ul>
-     */
+export default
+class Tree extends BaseClass {
+// Attributes
     @observable data;
     @observable class = 'glyphicon glyphicon-plus';
     @observable displayChildren = { display: 'none' };
 
+// Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor: ' + JSON.stringify(props));
         super(props);
         this.data = props.data || {};
     }
 
-    componentDidMount() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentDidMount');
+
+// Operations
+    componentWillMount() {
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentWillReceiveProps');
-        if (nextProps.data != this.props.data) { // Re-initialised
-            this.data = nextProps.data;
-        }
-    }
-
-    /**
-     * Render an expandable/collapsible tree structure at a DOM node based on json data
-     */
     render() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.render: ' + this.props.path);
         const name = this.data.name;
         const value = this.data.value;
         let children = undefined;
@@ -70,21 +59,52 @@ export default class Tree extends React.Component {
         )
     }
 
-    /**
-     * Expand/collapse this node of the tree
-     */
+    componentDidMount() {
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (nextProps.data != this.props.data) { // Re-initialised
+            this.data = nextProps.data;
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return super.shouldComponentUpdate();
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+    }
+
+    componentDidUpdate(prevProps,prevState) {
+    }
+
+    componentWillUnmount() {
+    }
+
+    componentDidCatch(error,info) {
+    }
+
+    renderContainer() {
+    }
+
+    renderHeader() {
+    }
+
+    renderBody() {
+    }
+
+    onSelect(name,value) {
+        this.props.onSelect(this.props.path, new NameValue(name, value));
+    }
+
     toggle() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.toggle');
         this.class = ( this.class == 'glyphicon glyphicon-plus' ? 'glyphicon glyphicon-minus' : 'glyphicon glyphicon-plus' )
         this.displayChildren.display = ( this.displayChildren.display == 'none' ? 'block' : 'none' );
     }
 
-    /**
-     * Pass a NameValue object to the sink
-     */
-    onSelect(name, value) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.onSelect: ' + value);
-        this.props.onSelect(this.props.path, new NameValue(name, value));
-    }
+
 }
+
+// Exports
 

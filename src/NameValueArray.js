@@ -3,10 +3,12 @@ import { observable, isObservableArray } from 'mobx';
 import NameValue from './NameValue';
 
 export default class NameValueArray {
-    @observable items = new Array();
-
-    constructor() {
-        // this.items = observable(new Array());
+    constructor(array) {
+        if (typeof(array) == 'undefined') {
+            this.items = observable(new Array()); // Create a new one
+        } else {
+            this.items = observable(array); // Wrap an existing one
+        }
     }
 
     add(name, value, key) {

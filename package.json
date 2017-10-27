@@ -1,6 +1,6 @@
 {
   "name": "hbp-react-ui",
-  "version": "1.0.9",
+  "version": "1.1.1",
   "description": "A library of useful user-interface components built with React and MobX",
   "main": "./dist/_index.js",
   "devDependencies": {
@@ -16,6 +16,7 @@
     "mobx": "^3.1.8",
     "mobx-react": "^4.1.5",
     "mobx-react-devtools": "^4.2.13",
+    "qunitjs": "^2.4.0",
     "react": "^15.4.2",
     "react-bootstrap": "^0.31.2",
     "react-dom": "^15.6.1"

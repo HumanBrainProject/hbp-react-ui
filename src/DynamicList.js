@@ -1,70 +1,56 @@
+///////////////////////////////////////////////////////////
+// File        : DynamicList.js
+// Description : 
+
+// Imports : 
+
 import React from 'react';
-import { bootstrapUtils } from 'react-bootstrap/lib/utils'
 import { Button } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 import { Panel } from 'react-bootstrap';
 
+import { bootstrapUtils } from 'react-bootstrap/lib/utils'
+bootstrapUtils.addStyle(Button, 'custom');
+
 import { observable, isObservableArray, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 
-import Styles from './Styles';
+import DynamicListStyles from './DynamicListStyles';
+import BaseClass from './BaseClass';
 import NameValue from './NameValue';
 import NameValueArray from './NameValueArray';
 
-bootstrapUtils.addStyle(Button, 'custom');
-
+// Class Definition
 @observer
-/**
- * Build a list of strings from a text selection or text input, optionally notifying a sink
- * @param {String} path - Location for the notification e.g. '/abc/xyz'
- * @param {Function} onUpdateList - Called when the list of items changes
- * @param {Object} header - An optional customised header component
- * @param {String} description - An optional tooltip
- * @param {Array<String>} items - An array of strings representing the initial list
- * @param {Function} onAddItem - A function to call when the 'Add' button is clicked
- */
-export default class DynamicList extends React.Component {
-    /**
-     * State:
-     * @property {Array<String>} items - An array of strings representing the current list
-     * @property {String} value - The current value
-     * @property {Bool} showEnterMetadataModal - Show input text
-     */
+export default
+class DynamicList extends BaseClass {
+// Attributes
     @observable items;
     @observable value;
     @observable showEnterMetadataModal = false;
     @observable showAlert = false;
 
+// Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.constructor');
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.constructor: ' + JSON.stringify(props));
         super(props);
         this.items = props.items || [];
         this.value = props.value || '';
-        this.style = props.style || Styles.styleContainer();
+        this.style = props.style || DynamicListStyles.styleContainer();
     }
 
-    componentDidMount() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentDidMount');
+
+// Operations
+    componentWillMount() {
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentWillReceiveProps');
-        if (nextProps.items != this.props.items) { // Re-initialised
-            this.items = nextProps.items;
-        }
-    }
-
-    /**
-     * Render an 'Add' button and a list of 'Value' buttons, each with a 'Delete' button
-     */
     render() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.render: ' + this.props.path);
         const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
         const header = (
             <div className='text-center'>
-                <style type='text/css'>{'.btn-custom {padding-top: 4px; padding-bottom: 4px; background-color: #428bca; color: white;}'}</style>
+                <style type='text/css'>{'.btn-custom {padding: 2px 12px; background-color: #428bca; color: white;}'}</style>
                 <Button bsStyle='custom' onClick={this.addToList.bind(this)} title={this.props.description}>{title}</Button>
             </div>
         );
@@ -81,11 +67,14 @@ export default class DynamicList extends React.Component {
         });
         return (
             <div style={this.style}>
-                <style type='text/css'>{'.DynamicListPanel .panel-heading {padding-top: 6px; padding-bottom: 6px;}'}</style>
-                <Panel className='DynamicListPanel' header={this.props.header || header} bsStyle='info' style={{ paddingBottom: '63px' }}>
-                    {items}
+                <style type='text/css'>{'.DynamicListPanel .panel-heading {padding: 3px 0;}'}</style>
+                <style type='text/css'>{'.DynamicListPanel .panel-body {min-height: 54px; height: 54px; overflow-y: auto;}'}</style>
+                <Panel className='DynamicListPanel' header={this.props.header || header} bsStyle='info'>
+                    <div style={{ minheight: '10px' }}>
+                        {items}
+                    </div>
                 </Panel>
-                <Modal show={this.showEnterMetadataModal} onHide={this.close}>
+                <Modal show={this.showEnterMetadataModal} onHide={this.close.bind(this, false)}>
                     <Modal.Header>
                         <Modal.Title>Enter Metadata</Modal.Title>
                     </Modal.Header>
@@ -121,11 +110,46 @@ export default class DynamicList extends React.Component {
         );
     }
 
-    /**
-     * Pass an anonymous function that adds a value to the owning component so that it can update this component with the text it chooses
-     */
+    componentDidMount() {
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (nextProps.items != this.props.items) { // Re-initialised
+            this.items = nextProps.items;
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return super.shouldComponentUpdate();
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+    }
+
+    componentDidUpdate(prevProps,prevState) {
+    }
+
+    componentWillUnmount() {
+    }
+
+    componentDidCatch(error,info) {
+    }
+
+    renderContainer() {
+    }
+
+    renderHeader() {
+    }
+
+    renderBody() {
+    }
+
+    onChange(event) {
+        this.value = event.target.value;
+    }
+
     addToList() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.addToList');
         this.props.onAddItem(
             (value) => {
                 if (value.length) {
@@ -142,36 +166,16 @@ export default class DynamicList extends React.Component {
         );
     }
 
-    /**
-     * Remove the specified value
-     */
     removeFromList(valueIndex) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.removeFromList');
         this.items.splice(valueIndex, 1);
         this.props.onUpdateList(this.props.path, this.items.toJS());
     }
 
-    /**
-     * Update the current value from the text input
-     */
-    onChange(e) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.onChange');
-        this.value = e.target.value;
-    }
-
-    /**
-     * Show the text input modal
-     */
     open() {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.open');
         this.showEnterMetadataModal = true;
     }
 
-    /**
-     * Hide the text input modal and, optionally, add the current value
-     */
     close(OK) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.close');
         this.showEnterMetadataModal = false;
         if (OK) {
             if (this.value.length) {
@@ -185,11 +189,12 @@ export default class DynamicList extends React.Component {
         }
     }
 
-    /**
-     * Hide the alert modal
-     */
     hideAlert() {
         this.showAlert = false;
     }
+
+
 }
+
+// Exports
 
