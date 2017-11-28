@@ -14,13 +14,14 @@ import { Panel } from 'react-bootstrap';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils'
 bootstrapUtils.addStyle(Button, 'custom');
 
+import { Draggable, Droppable } from 'react-drag-and-drop'
+
 import { observable, isObservableArray, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 
 import DynamicListStyles from './DynamicListStyles';
 import BaseClass from './BaseClass';
-import NameValue from './NameValue';
-import NameValueArray from './NameValueArray';
+import { NameValue, NameValueArray } from './NameValue';
 
 // Class Definition
 @observer
@@ -28,16 +29,16 @@ export default
 class DynamicList extends BaseClass {
 // Attributes
     @observable items;
-    @observable value;
+    @observable item;
     @observable showEnterMetadataModal = false;
     @observable showAlert = false;
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.constructor');
         super(props);
-        this.items = props.items || [];
-        this.value = props.value || '';
+        this.items = props.items || new NameValueArray();
+        this.item = props.item || this.empty;
         this.style = props.style || DynamicListStyles.styleContainer();
     }
 
@@ -47,31 +48,50 @@ class DynamicList extends BaseClass {
     }
 
     render() {
-        const title = this.props.path.substr(this.props.path.search(/[\w-]+$/)); // The last word in the path
-        const header = (
-            <div className='text-center'>
-                <style type='text/css'>{'.btn-custom {padding: 2px 12px; background-color: #428bca; color: white;}'}</style>
-                <Button bsStyle='custom' onClick={this.addToList.bind(this)} title={this.props.description}>{title}</Button>
-            </div>
-        );
-        // const customButtonStyle={'paddingTop': '4px', 'paddingBottom': '4px'};
-        const items = this.items.map((item, index) => {
-            return (
-                <div key={index} className='text-left'>
-                    <Button onClick={this.removeFromList.bind(this, index)}>
-                        {( typeof(item) == 'string' ? item : ( typeof(item) == 'object' ? item.name : '' ) )}
-                        <Glyphicon glyph='remove' style={{ marginLeft: '8px' }} />
-                    </Button>
-                </div>
-            );
-        });
+        return super.render();
+    }
+
+    componentDidMount() {
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentWillReceiveProps');
+        super.componentWillReceiveProps(nextProps);
+        if (nextProps.items != this.props.items) { // Re-initialised
+            this.items = nextProps.items;
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return super.shouldComponentUpdate();
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+    }
+
+    componentDidUpdate(prevProps,prevState) {
+    }
+
+    componentWillUnmount() {
+    }
+
+    componentDidCatch(error,info) {
+    }
+
+    renderContainer() {
         return (
             <div style={this.style}>
                 <style type='text/css'>{'.DynamicListPanel .panel-heading {padding: 3px 0;}'}</style>
                 <style type='text/css'>{'.DynamicListPanel .panel-body {min-height: 54px; height: 54px; overflow-y: auto;}'}</style>
-                <Panel className='DynamicListPanel' header={this.props.header || header} bsStyle='info'>
+                <Panel className='DynamicListPanel' header={this.props.header || this.renderHeader()} bsStyle='info'>
                     <div style={{ minheight: '10px' }}>
-                        {items}
+                        <Droppable
+                            enabled={true}
+                            style={{height: '20px'}}
+                            types={['data']}
+                            onDrop={this.onDrop.bind(this)}>
+                            {this.renderBody()}
+                        </Droppable>
                     </div>
                 </Panel>
                 <Modal show={this.showEnterMetadataModal} onHide={this.close.bind(this, false)}>
@@ -110,51 +130,42 @@ class DynamicList extends BaseClass {
         );
     }
 
-    componentDidMount() {
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('DynamicList.componentWillReceiveProps: ' + JSON.stringify(nextProps));
-        if (nextProps.items != this.props.items) { // Re-initialised
-            this.items = nextProps.items;
-        }
-    }
-
-    shouldComponentUpdate(nextProps,nextState) {
-        return super.shouldComponentUpdate();
-    }
-
-    componentWillUpdate(nextProps,nextState) {
-    }
-
-    componentDidUpdate(prevProps,prevState) {
-    }
-
-    componentWillUnmount() {
-    }
-
-    componentDidCatch(error,info) {
-    }
-
-    renderContainer() {
-    }
-
     renderHeader() {
+        const header = (
+            <div className='text-center'>
+                <style type='text/css'>{'.btn-custom {padding: 2px 12px; background-color: #428bca; color: white;}'}</style>
+                <Button bsStyle='custom' onClick={this.addToList.bind(this)} title={this.props.description}>
+                    {this.title}
+                </Button>
+            </div>
+        );
+        return header;
     }
 
     renderBody() {
+        return this.items.map((item, index) => {
+            return (
+                <div key={item.$name} className='text-left'>
+                    <Button onClick={this.removeFromList.bind(this, index)}>
+                        {item.$name}
+                        <Glyphicon glyph='remove' style={{ marginLeft: '8px' }} />
+                    </Button>
+                </div>
+            );
+        });
     }
 
     onChange(event) {
-        this.value = event.target.value;
+        console.log(event.target.value);
+        this.item.$name = event.target.value;
     }
 
     addToList() {
         this.props.onAddItem(
-            (value) => {
-                if (value.length) {
-                    if (!(value.length > 256)) {
-                        this.items.push(value);
+            (name) => {
+                if (name.length) {
+                    if (!(name.length > 256)) {
+                        this.items.push(new NameValue(name));
                         this.props.onUpdateList(this.props.path, this.items.toJS());
                     } else {
                         this.showAlert = true;
@@ -166,8 +177,8 @@ class DynamicList extends BaseClass {
         );
     }
 
-    removeFromList(valueIndex) {
-        this.items.splice(valueIndex, 1);
+    removeFromList(index) {
+        this.items.splice(index, 1);
         this.props.onUpdateList(this.props.path, this.items.toJS());
     }
 
@@ -178,10 +189,11 @@ class DynamicList extends BaseClass {
     close(OK) {
         this.showEnterMetadataModal = false;
         if (OK) {
-            if (this.value.length) {
-                if (!(this.value.length > 256)) {
-                    this.items.push(this.value);
+            if (this.item.$name.length) {
+                if (!(this.item.$name.length > 256)) {
+                    this.items.push(new NameValue(this.item.$name));
                     this.props.onUpdateList(this.props.path, this.items.toJS());
+                    this.item = this.empty;
                 } else {
                     this.showAlert = true;
                 }
@@ -191,6 +203,16 @@ class DynamicList extends BaseClass {
 
     hideAlert() {
         this.showAlert = false;
+    }
+
+    allowDrop(event) {
+    }
+
+    onDrop(event) {
+        console.log(event.data);
+        const name = event.data;
+        this.items.push(new NameValue(name));
+        this.props.onUpdateList(this.props.path, this.items.toJS());
     }
 
 

@@ -1,10 +1,15 @@
 export default class Path {
     constructor(path) {
         try {
-            this.matches = path.match(/^\/([\w-]+)(?:.*\/([\w-]+))?/); // This isn't correct
+            this.path = path;
+            this.matches = this.path.match(/^\/([\w-]+)(?:.*\/([\w-]+))?/); // This isn't correct
         } catch (error) {
             console.log('Path.constructor: ' + error.message);
         }
+    }
+
+    get value() {
+        return this.path;
     }
 
     get first() {

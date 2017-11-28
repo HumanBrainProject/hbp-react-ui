@@ -23,7 +23,7 @@ class HorizontalInputText extends InputText {
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('HorizontalInputText.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('HorizontalInputText.constructor');
         super(props);
         this.title = props.title || this.title;
     }
@@ -41,7 +41,7 @@ class HorizontalInputText extends InputText {
                             placeholder='type...'
                             title={this.description}
                             onChange={this.onChange.bind(this)}
-                            value={this.value}
+                            value={this.item.$name}
                             />
                     </InputGroup>
                 </FormGroup>

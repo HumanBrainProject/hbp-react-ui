@@ -23,7 +23,7 @@ class StaticText extends BaseClass {
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.constructor');
         super(props);
         this.value = props.value || '';
         this.description = props.description || '';
@@ -51,7 +51,8 @@ class StaticText extends BaseClass {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.componentWillReceiveProps');
+        super.componentWillReceiveProps(nextProps);
         if (nextProps.value != this.props.value) { // Re-initialised
             this.value = nextProps.value;
         }

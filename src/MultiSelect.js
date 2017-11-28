@@ -24,7 +24,7 @@ class MultiSelect extends BaseClass {
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('MultiSelect.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('MultiSelect.constructor');
         super(props);
         this.options = props.options;
     }
@@ -43,7 +43,8 @@ class MultiSelect extends BaseClass {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('MultiSelect.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('MultiSelect.componentWillReceiveProps');
+        super.componentWillReceiveProps(nextProps);
     }
 
     shouldComponentUpdate(nextProps,nextState) {

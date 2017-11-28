@@ -14,6 +14,7 @@ import { observer } from 'mobx-react';
 
 import SelectStyles from './SelectStyles';
 import BaseClass from './BaseClass';
+import { NameValue, NameValueArray } from './NameValue';
 
 // Class Definition
 @observer
@@ -25,10 +26,10 @@ class Select extends BaseClass {
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.constructor');
         super(props);
-        this.options = props.options || [];
-        this.selection = props.selection || '';
+        this.options = props.options || new NameValueArray();
+        this.selection = props.selection || this.empty;
         this.style = props.style || SelectStyles.styleContainer();
     }
 
@@ -38,7 +39,7 @@ class Select extends BaseClass {
     }
 
     render() {
-        const options = this.renderOptions(this.options.items);
+        const options = this.renderOptions(this.options);
         return (
             <div style={this.style}>
                 <Panel header={this.title} bsStyle='info' className='text-center' title={this.props.description}>
@@ -47,9 +48,9 @@ class Select extends BaseClass {
                             componentClass='select'
                             placeholder='select'
                             onChange={this.onChange.bind(this)}
-                            value={this.selection}
+                            defaultValue={this.selection.$value}
                         >
-                            {this.selection == '' ? <option value='' selected>select...</option> : <option value=''>select...</option>}
+                            <option value=''>select...</option>
                             {options}
                         </FormControl>
                     </FormGroup>
@@ -62,7 +63,8 @@ class Select extends BaseClass {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Select.componentWillReceiveProps');
+        super.componentWillReceiveProps(nextProps);
         if (nextProps.options != this.props.options) { // Re-initialised
             this.options = nextProps.options;
         }
@@ -97,23 +99,29 @@ class Select extends BaseClass {
     }
 
     renderOptions(items) {
+        // debugger;
         return items.map((item, index) => {
-            if (item.value == this.selection) {
-                return (
-                    <option key={index} value={item.value} selected>{item.name}</option>
-                );
-            } else {
-                return (
-                    <option key={index} value={item.value}>{item.name}</option>
-                );
-            }
+            return (
+                <option key={index} value={item.$value}>{item.$name}</option>
+            );
         });
     }
 
     onChange(event) {
-        this.selection = event.target.value;
-        if (this.selection != '') {
-            const option = this.options.findByValue(this.selection);
+        // this.selection.$value = event.target.value;
+        // if (this.selection.$value != '') {
+        //     debugger;
+        //     const options = new NameValueArray(this.options.slice());
+        //     const option = options.findByValue(this.selection.$value);
+        //     if (option)
+        //         this.props.onSelect(this.props.path, option);
+        // } else {
+        //     this.clearSelection();
+        // }
+        const value = event.target.value;
+        if (value != '') {
+            const options = new NameValueArray(this.options.slice());
+            const option = options.findByValue(value);
             if (option)
                 this.props.onSelect(this.props.path, option);
         } else {
@@ -122,7 +130,7 @@ class Select extends BaseClass {
     }
 
     clearSelection() {
-        this.selection = '';
+        this.selection = this.empty;
         this.props.onSelect(this.props.path, this.selection);
     }
 

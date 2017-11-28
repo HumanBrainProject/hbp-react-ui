@@ -32,6 +32,7 @@ export default class DynamicListSelect extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        super.componentWillReceiveProps(nextProps);
     }
 
     /**

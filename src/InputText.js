@@ -19,13 +19,13 @@ import BaseClass from './BaseClass';
 export default
 class InputText extends BaseClass {
 // Attributes
-    @observable value;
+    @observable item;
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.constructor');
         super(props);
-        this.value = props.value || '';
+        this.item = props.item || this.empty;
         this.description = props.description || '';
         this.style = props.style || InputTextStyles.styleContainer();
     }
@@ -43,7 +43,7 @@ class InputText extends BaseClass {
                         type='text'
                         placeholder='type...'
                         onChange={this.onChange.bind(this)}
-                        value={this.value}
+                        value={this.item.$name}
                         />
                 </Panel>
             </div>
@@ -54,9 +54,10 @@ class InputText extends BaseClass {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.componentWillReceiveProps: ' + JSON.stringify(nextProps));
-        if (nextProps.value != this.props.value) { // Re-initialised
-            this.value = nextProps.value;
+        if (typeof(_hbp_debug_) != 'undefined') console.log('InputText.componentWillReceiveProps');
+        super.componentWillReceiveProps(nextProps);
+        if (nextProps.item != this.props.item) { // Re-initialised
+            this.item = nextProps.item;
         }
     }
 
@@ -86,8 +87,8 @@ class InputText extends BaseClass {
     }
 
     onChange(event) {
-        this.value = event.target.value;
-        this.props.onUpdateValue(this.props.path, this.value);
+        this.item.$name = event.target.value;
+        this.props.onUpdateValue(this.props.path, this.item);
     }
 
 

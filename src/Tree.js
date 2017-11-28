@@ -24,7 +24,7 @@ class Tree extends BaseClass {
 
 // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor: ' + JSON.stringify(props));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor');
         super(props);
         this.data = props.data || {};
     }
@@ -63,7 +63,8 @@ class Tree extends BaseClass {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentWillReceiveProps');
+        super.componentWillReceiveProps(nextProps);
         if (nextProps.data != this.props.data) { // Re-initialised
             this.data = nextProps.data;
         }

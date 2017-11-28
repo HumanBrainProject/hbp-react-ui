@@ -26,6 +26,7 @@ class _Template extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        super.componentWillReceiveProps(nextProps);
     }
 
     shouldComponentUpdate(nextProps,nextState) {

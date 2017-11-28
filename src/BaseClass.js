@@ -11,6 +11,7 @@ import { observable, isObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
 
 import Styles from './Styles';
+import { NameValue } from './NameValue';
 import Path from './Path';
 
 // Class Definition
@@ -19,10 +20,12 @@ export default
 class BaseClass extends React.Component {
 // Attributes
     @observable initialised = false;
+    empty = new NameValue('');
 
 // Constructor
     constructor(props) {
         console.log('BaseClass.constructor');
+        try { console.log(JSON.stringify(props)); } catch (error) { console.log('No JSON for \'props\''); }
         super(props);
         this.path = new Path(props.path);
         this.title = typeof(this.path.last) != 'undefined' ? this.path.last : this.path.first;
@@ -45,6 +48,8 @@ class BaseClass extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('BaseClass.componentWillReceiveProps');
+        try { console.log(JSON.stringify(nextProps)); } catch (error) { console.log('No JSON for \'props\''); }
+        // super.componentWillReceiveProps(nextProps);  // This is causing a problem
     }
 
     shouldComponentUpdate(nextProps,nextState) {

@@ -1,6 +1,5 @@
 node_modules/
 dist/
-test/
 release.txt
 tests.bundle.js
 tests.bundle.js.map
