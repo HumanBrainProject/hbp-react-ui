@@ -10,7 +10,7 @@ import DatePicker from '../src/DatePicker';
 
 @observer
 class Component extends React.Component {
-    @observable item = new NameValue('DatePicker', '2017-11-15');
+    @observable item = new NameValue('2017-11-15');
 
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ class Component extends React.Component {
                         <div style={DatePickerStyles.styleCell()}>
                             <DatePicker
                                 path={'/Category/Item'}
-                                onUpdateValue={this.onUpdateValue.bind(this)} 
+                                onChange={this.onChange.bind(this)} 
                                 item={this.item}
                                 ref={(childComponent) => { this.childComponent = childComponent; }}
                             />
@@ -36,8 +36,8 @@ class Component extends React.Component {
         );
     }
 
-    onUpdateValue(path, value) {
-        console.log(`Component.onUpdateValue: ${path} - ${JSON.stringify(value)}`);
+    onChange(path, newItem) {
+        console.log(`Component.onChange: ${path} - ${JSON.stringify(newItem)}`);
     }
 }
 

@@ -12,6 +12,7 @@ import { observer } from 'mobx-react';
 
 import DatePickerStyles from './DatePickerStyles';
 import BaseClass from './BaseClass';
+import { NameValue, NameValueArray } from './NameValue';
 
 // Class Definition
 @observer
@@ -25,7 +26,6 @@ class DatePicker extends BaseClass {
         if (typeof(_hbp_debug_) != 'undefined') console.log('DatePicker.constructor');
         super(props);
         this.item = props.item || this.empty;
-        this.description = props.description || '';
         this.style = props.style || DatePickerStyles.styleContainer();
     }
 
@@ -82,8 +82,8 @@ class DatePicker extends BaseClass {
     }
 
     onChange(event) {
-        this.item.$value = event.target.value;
-        this.props.onUpdateValue(this.props.path, this.item);
+        this.item = new NameValue(event.target.value);
+        this.props.onChange(this.props.path, this.item);
     }
 
 

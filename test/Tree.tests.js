@@ -4,8 +4,9 @@ import ReactDOM from 'react-dom';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
-import Styles from './Styles';
-import Tree from './Tree';
+import { NameValue, NameValueArray } from '../src/NameValue';
+import TreeStyles from '../src/TreeStyles';
+import Tree from '../src/Tree';
 
 @observer
 class Component extends React.Component {
@@ -19,13 +20,13 @@ class Component extends React.Component {
     render() {
         console.log('Component.render');
         return (
-            <div style={Styles.styleTable()}>
-                <div style={Styles.styleRowGroup()}>
-                    <div style={Styles.styleRow()}>
-                        <div style={Styles.styleCell()}>
+            <div style={TreeStyles.styleTable()}>
+                <div style={TreeStyles.styleRowGroup()}>
+                    <div style={TreeStyles.styleRow()}>
+                        <div style={TreeStyles.styleCell()}>
                             <Tree
                                 path={'/Category/Item'}
-                                onSelect={this.onSelect.bind(this)} 
+                                onChange={this.onChange.bind(this)} 
                                 data={this.data}
                                 ref={(childComponent) => { this.childComponent = childComponent; }}
                             />
@@ -36,8 +37,8 @@ class Component extends React.Component {
         );
     }
 
-    onSelect(path, node) {
-        console.log(`Component.onSelect: ${path} - {name: '${node.name}', value: '${node.value}'}`);
+    onChange(path, newItem) {
+        console.log(`Component.onChange: ${path} - ${JSON.stringify(newItem)}`);
     }
 }
 

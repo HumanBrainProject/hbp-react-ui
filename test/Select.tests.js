@@ -26,10 +26,10 @@ class Component extends React.Component {
                     <div style={SelectStyles.styleRow()}>
                         <div style={SelectStyles.styleCell()}>
                             <Select
-                                path='/Specimen/Sex'
-                                onSelect={this.onSelect.bind(this)} 
+                                path='/Category/Item'
+                                onChange={this.onChange.bind(this)} 
                                 options={this.options}
-                                selection={this.options[2]}
+                                item={this.options[2]}
                                 ref={(childComponent) => { this.childComponent = childComponent; }}
                             />
                         </div>
@@ -39,8 +39,8 @@ class Component extends React.Component {
         );
     }
 
-    onSelect(path, option) {
-        console.log(`Component.onSelect: ${path} - ${JSON.stringify(option)}`);
+    onChange(path, newItem) {
+        console.log(`Component.onChange: ${path} - ${JSON.stringify(newItem)}`);
     }
 }
 

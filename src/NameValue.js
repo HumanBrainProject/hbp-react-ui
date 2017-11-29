@@ -47,16 +47,16 @@ export class NameValueArray {
         let items = observable(new Array());
         if (typeof array != 'undefined') {
             if (Array.isArray(array)) {
-                array.map((item) => {if (typeof item == 'object') items.push(new NameValue(item.name, item.value)); else items.push(new NameValue(item));});
+                array.map((item) => {if (typeof item == 'object') items.push(new NameValue(item.name, item.value, item.key)); else items.push(new NameValue(item));});
             } else {
                 for (var i = 0; i < arguments.length; i++) {
-                    if (typeof arguments[i] == 'object') items.push(new NameValue(arguments[i].name, arguments[i].value)); else items.push(new NameValue(arguments[i]));
+                    if (typeof arguments[i] == 'object') items.push(new NameValue(arguments[i].name, arguments[i].value, arguments[i].key)); else items.push(new NameValue(arguments[i]));
                 }
             }
         }
         var methods = Object.getOwnPropertyNames(this.__proto__).filter(key => isNaN(parseInt(key))); // Filter out methods for accessing elements by index
         for (var method in methods) {
-            console.log('NameValueArray: ' + methods[method]);
+            // console.log('NameValueArray: ' + methods[method]);
             items[methods[method]] = this[methods[method]];
         }
         return items; // A MobX ObservableArray

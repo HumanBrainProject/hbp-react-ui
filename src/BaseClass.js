@@ -29,6 +29,7 @@ class BaseClass extends React.Component {
         super(props);
         this.path = new Path(props.path);
         this.title = typeof(this.path.last) != 'undefined' ? this.path.last : this.path.first;
+        this.description = props.description || '';
     }
 
 

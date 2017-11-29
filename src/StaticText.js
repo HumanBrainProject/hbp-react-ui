@@ -13,21 +13,21 @@ import { observer, action } from 'mobx-react';
 
 import StaticTextStyles from './StaticTextStyles';
 import BaseClass from './BaseClass';
+import { NameValue, NameValueArray } from './NameValue';
 
 // Class Definition
 @observer
 export default
 class StaticText extends BaseClass {
 // Attributes
-    @observable value;
+    @observable item;
 
 // Constructor
     constructor(props) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.constructor');
         super(props);
-        this.value = props.value || '';
-        this.description = props.description || '';
-        this.style = props.style || InputTextStyles.styleContainer();
+        this.item = props.item || this.empty;
+        this.style = props.style || StaticTextStyles.styleContainer();
     }
 
 
@@ -40,7 +40,7 @@ class StaticText extends BaseClass {
             <div style={this.style}>
                 <Panel header={this.title} bsStyle='info' className='text-center' title={this.description}>
                     <FormControl.Static>
-                        {this.value}
+                        {this.item.$name}
                     </FormControl.Static>
                 </Panel>
             </div>
@@ -53,8 +53,8 @@ class StaticText extends BaseClass {
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.componentWillReceiveProps');
         super.componentWillReceiveProps(nextProps);
-        if (nextProps.value != this.props.value) { // Re-initialised
-            this.value = nextProps.value;
+        if (nextProps.item != this.props.item) { // Re-initialised
+            this.item = nextProps.item;
         }
     }
 

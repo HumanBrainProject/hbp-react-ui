@@ -5,6 +5,8 @@
 // Imports : 
 
 import React from 'react';
+import { Button } from 'react-bootstrap';
+import { Glyphicon } from 'react-bootstrap';
 
 import { observable, isObservableArray, toJS } from 'mobx';
 import { observer } from 'mobx-react';
@@ -57,11 +59,24 @@ class DropTarget extends DynamicList {
     }
 
     renderBody() {
-        if (this.items.length) {
-            return super.renderBody();
+        if (this.items.value) {
+            return (
+                <div className='text-left'>
+                    <Button onClick={this.addItem.bind(this, null)}>
+                        {this.items.value}
+                        <Glyphicon glyph='remove' style={{ marginLeft: '8px' }} />
+                    </Button>
+                </div>
+            );
+
         } else {
             return (<div className='text-center' style={{color: 'silver'}}>drop {this.title} here</div>);
         }
+    }
+
+    addItem(name) {
+        this.items.value = name;
+        this.props.onChange(this.props.path, this.items);
     }
 
 

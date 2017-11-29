@@ -13,6 +13,7 @@ import { observer } from 'mobx-react';
 
 import MultiSelectStyles from './MultiSelectStyles';
 import BaseClass from './BaseClass';
+import { NameValue, NameValueArray } from './NameValue';
 
 // Class Definition
 @observer
@@ -27,6 +28,7 @@ class MultiSelect extends BaseClass {
         if (typeof(_hbp_debug_) != 'undefined') console.log('MultiSelect.constructor');
         super(props);
         this.options = props.options;
+        this.style = props.style || MultiSelectStyles.styleContainer();
     }
 
 

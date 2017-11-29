@@ -5,30 +5,29 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 import { NameValue, NameValueArray } from '../src/NameValue';
-import DynamicListStyles from '../src/DynamicListStyles';
-import DynamicList from '../src/DynamicList';
+import InputTextStyles from '../src/InputTextStyles';
+import InputText from '../src/InputText';
 
 @observer
 class Component extends React.Component {
-    items = new NameValueArray(); // @observable 
+    item = new NameValue('Test');
 
     constructor(props) {
+        console.log('Component.constructor');
         super(props);
     }
 
     render() {
         console.log('Component.render');
-        this.items.addFromJSON([{ name: '<Unknown>', value: 'U' }, { name: 'Male', value: 'M' }, { name: 'Female', value: 'F' }, { name: 'Other', value: 'O' }]);
         return (
-            <div style={DynamicListStyles.styleTable()}>
-                <div style={DynamicListStyles.styleRowGroup()}>
-                    <div style={DynamicListStyles.styleRow()}>
-                        <div style={DynamicListStyles.styleCell()}>
-                            <DynamicList
-                                path={'/Category/Item'}
+            <div style={InputTextStyles.styleTable()}>
+                <div style={InputTextStyles.styleRowGroup()}>
+                    <div style={InputTextStyles.styleRow()}>
+                        <div style={InputTextStyles.styleCell()}>
+                            <InputText
+                                path='/Category/Item'
                                 onChange={this.onChange.bind(this)} 
-                                items={this.items}
-                                onAddItem={this.onAddItem.bind(this)}
+                                item={this.item}
                                 ref={(childComponent) => { this.childComponent = childComponent; }}
                             />
                         </div>
@@ -38,17 +37,12 @@ class Component extends React.Component {
         );
     }
 
-    onAddItem(onAddItemAction) {
-        console.log('Component.onAddItem');
-        onAddItemAction(''); // Need a test for add selected text
-    }
-
-    onChange(path, newItems) {
-        console.log(`Component.onChange: ${path} - ${JSON.stringify(newItems)}`);
+    onChange(path, newItem) {
+        console.log(`Component.onChange: ${path} - ${JSON.stringify(newItem)}`);
     }
 }
 
-QUnit.module('DynamicList', function (hooks) {
+QUnit.module('InputText', function (hooks) {
     console.clear();
     this.component = ReactDOM.render(<Component />, document.getElementById('react'));
 

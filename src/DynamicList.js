@@ -166,7 +166,7 @@ class DynamicList extends BaseClass {
                 if (name.length) {
                     if (!(name.length > 256)) {
                         this.items.push(new NameValue(name));
-                        this.props.onUpdateList(this.props.path, this.items.toJS());
+                        this.props.onChange(this.props.path, this.items.toJS());
                     } else {
                         this.showAlert = true;
                     }
@@ -179,7 +179,7 @@ class DynamicList extends BaseClass {
 
     removeFromList(index) {
         this.items.splice(index, 1);
-        this.props.onUpdateList(this.props.path, this.items.toJS());
+        this.props.onChange(this.props.path, this.items.toJS());
     }
 
     open() {
@@ -192,7 +192,7 @@ class DynamicList extends BaseClass {
             if (this.item.$name.length) {
                 if (!(this.item.$name.length > 256)) {
                     this.items.push(new NameValue(this.item.$name));
-                    this.props.onUpdateList(this.props.path, this.items.toJS());
+                    this.props.onChange(this.props.path, this.items.toJS());
                     this.item = this.empty;
                 } else {
                     this.showAlert = true;
@@ -211,8 +211,12 @@ class DynamicList extends BaseClass {
     onDrop(event) {
         console.log(event.data);
         const name = event.data;
+        this.addItem(name);
+    }
+
+    addItem(name) {
         this.items.push(new NameValue(name));
-        this.props.onUpdateList(this.props.path, this.items.toJS());
+        this.props.onChange(this.props.path, this.items.toJS());
     }
 
 

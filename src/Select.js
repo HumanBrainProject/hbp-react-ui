@@ -22,14 +22,14 @@ export default
 class Select extends BaseClass {
 // Attributes
     @observable options;
-    @observable selection;
+    @observable item;
 
 // Constructor
     constructor(props) {
         if (typeof(_hbp_debug_) != 'undefined') console.log('Select.constructor');
         super(props);
         this.options = props.options || new NameValueArray();
-        this.selection = props.selection || this.empty;
+        this.item = props.item || this.empty;
         this.style = props.style || SelectStyles.styleContainer();
     }
 
@@ -48,7 +48,7 @@ class Select extends BaseClass {
                             componentClass='select'
                             placeholder='select'
                             onChange={this.onChange.bind(this)}
-                            defaultValue={this.selection.$value}
+                            defaultValue={this.item.$value}
                         >
                             <option value=''>select...</option>
                             {options}
@@ -68,8 +68,8 @@ class Select extends BaseClass {
         if (nextProps.options != this.props.options) { // Re-initialised
             this.options = nextProps.options;
         }
-        if (nextProps.selection != this.props.selection) { // Re-initialised
-            this.selection = nextProps.selection;
+        if (nextProps.item != this.props.item) { // Re-initialised
+            this.item = nextProps.item;
         }
     }
 
@@ -99,7 +99,6 @@ class Select extends BaseClass {
     }
 
     renderOptions(items) {
-        // debugger;
         return items.map((item, index) => {
             return (
                 <option key={index} value={item.$value}>{item.$name}</option>
@@ -108,30 +107,20 @@ class Select extends BaseClass {
     }
 
     onChange(event) {
-        // this.selection.$value = event.target.value;
-        // if (this.selection.$value != '') {
-        //     debugger;
-        //     const options = new NameValueArray(this.options.slice());
-        //     const option = options.findByValue(this.selection.$value);
-        //     if (option)
-        //         this.props.onSelect(this.props.path, option);
-        // } else {
-        //     this.clearSelection();
-        // }
         const value = event.target.value;
         if (value != '') {
             const options = new NameValueArray(this.options.slice());
-            const option = options.findByValue(value);
-            if (option)
-                this.props.onSelect(this.props.path, option);
+            const item = options.findByValue(value);
+            if (item)
+                this.props.onChange(this.props.path, item);
         } else {
             this.clearSelection();
         }
     }
 
     clearSelection() {
-        this.selection = this.empty;
-        this.props.onSelect(this.props.path, this.selection);
+        this.item = this.empty;
+        this.props.onChange(this.props.path, this.item);
     }
 
 

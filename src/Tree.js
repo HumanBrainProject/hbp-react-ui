@@ -11,7 +11,7 @@ import { observer } from 'mobx-react';
 
 import TreeStyles from './TreeStyles';
 import BaseClass from './BaseClass';
-import NameValue from './NameValue';
+import { NameValue, NameValueArray } from './NameValue';
 
 // Class Definition
 @observer
@@ -27,6 +27,7 @@ class Tree extends BaseClass {
         if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor');
         super(props);
         this.data = props.data || {};
+        this.style = props.style || TreeStyles.styleContainer();
     }
 
 
@@ -44,7 +45,7 @@ class Tree extends BaseClass {
                     <Tree 
                         path={this.props.path}
                         data={child} 
-                        onSelect={this.props.onSelect} 
+                        onChange={this.props.onChange} 
                         key={index}
                     />
                 );
@@ -53,7 +54,7 @@ class Tree extends BaseClass {
         return (
             <li style={{ listStyleType: 'none' }}>
                 { children != undefined && <i className={this.class} style={{ marginRight: '0.5em' }} onClick={this.toggle.bind(this)}></i> }
-                <a onClick={this.onSelect.bind(this, name, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
+                <a onClick={this.onChange.bind(this, name, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
                 { children != undefined && <ul style={Object.assign({}, { marginLeft: '1em' }, this.displayChildren)}>{children}</ul> }
             </li>
         )
@@ -95,8 +96,8 @@ class Tree extends BaseClass {
     renderBody() {
     }
 
-    onSelect(name,value) {
-        this.props.onSelect(this.props.path, new NameValue(name, value));
+    onChange(name,value) {
+        this.props.onChange(this.props.path, new NameValue(name, value));
     }
 
     toggle() {
