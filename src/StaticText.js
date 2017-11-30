@@ -40,7 +40,7 @@ class StaticText extends BaseClass {
             <div style={this.style}>
                 <Panel header={this.title} bsStyle='info' className='text-center' title={this.description}>
                     <FormControl.Static>
-                        {this.item.$name}
+                        {this.item.$value}
                     </FormControl.Static>
                 </Panel>
             </div>

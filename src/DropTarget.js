@@ -63,7 +63,7 @@ class DropTarget extends DynamicList {
             return (
                 <div className='text-left'>
                     <Button onClick={this.addItem.bind(this, null)}>
-                        {this.items.value}
+                        {this.items.$value}
                         <Glyphicon glyph='remove' style={{ marginLeft: '8px' }} />
                     </Button>
                 </div>
@@ -75,7 +75,7 @@ class DropTarget extends DynamicList {
     }
 
     addItem(name) {
-        this.items.value = name;
+        this.items.$value = name;
         this.props.onChange(this.props.path, this.items);
     }
 

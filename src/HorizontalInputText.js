@@ -41,7 +41,7 @@ class HorizontalInputText extends InputText {
                             placeholder='type...'
                             title={this.description}
                             onChange={this.onChange.bind(this)}
-                            value={this.item.$name}
+                            value={this.item.$value}
                             />
                     </InputGroup>
                 </FormGroup>

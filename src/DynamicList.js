@@ -145,9 +145,9 @@ class DynamicList extends BaseClass {
     renderBody() {
         return this.items.map((item, index) => {
             return (
-                <div key={item.$name} className='text-left'>
+                <div key={item.$value} className='text-left'>
                     <Button onClick={this.removeFromList.bind(this, index)}>
-                        {item.$name}
+                        {item.$value}
                         <Glyphicon glyph='remove' style={{ marginLeft: '8px' }} />
                     </Button>
                 </div>
@@ -157,7 +157,7 @@ class DynamicList extends BaseClass {
 
     onChange(event) {
         console.log(event.target.value);
-        this.item.$name = event.target.value;
+        this.item.$value = event.target.value;
     }
 
     addToList() {
@@ -165,7 +165,7 @@ class DynamicList extends BaseClass {
             (name) => {
                 if (name.length) {
                     if (!(name.length > 256)) {
-                        this.items.push(new NameValue(name));
+                        this.items.push(new NameValue(undefined, name));
                         this.props.onChange(this.props.path, this.items.toJS());
                     } else {
                         this.showAlert = true;
@@ -189,9 +189,9 @@ class DynamicList extends BaseClass {
     close(OK) {
         this.showEnterMetadataModal = false;
         if (OK) {
-            if (this.item.$name.length) {
-                if (!(this.item.$name.length > 256)) {
-                    this.items.push(new NameValue(this.item.$name));
+            if (this.item.$value.length) {
+                if (!(this.item.$value.length > 256)) {
+                    this.items.push(new NameValue(undefined, this.item.$value));
                     this.props.onChange(this.props.path, this.items.toJS());
                     this.item = this.empty;
                 } else {
@@ -215,7 +215,7 @@ class DynamicList extends BaseClass {
     }
 
     addItem(name) {
-        this.items.push(new NameValue(name));
+        this.items.push(new NameValue(undefined, name));
         this.props.onChange(this.props.path, this.items.toJS());
     }
 

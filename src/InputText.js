@@ -43,7 +43,7 @@ class InputText extends BaseClass {
                         type='text'
                         placeholder='type...'
                         onChange={this.onChange.bind(this)}
-                        value={this.item.$name}
+                        value={this.item.$value}
                         />
                 </Panel>
             </div>
@@ -87,7 +87,7 @@ class InputText extends BaseClass {
     }
 
     onChange(event) {
-        this.item = new NameValue(event.target.value);
+        this.item = new NameValue(undefined, event.target.value);
         this.props.onChange(this.props.path, this.item);
     }
 

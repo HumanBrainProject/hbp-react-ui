@@ -82,7 +82,7 @@ class DatePicker extends BaseClass {
     }
 
     onChange(event) {
-        this.item = new NameValue(event.target.value);
+        this.item = new NameValue(undefined, event.target.value);
         this.props.onChange(this.props.path, this.item);
     }
 
