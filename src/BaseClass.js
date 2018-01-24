@@ -22,7 +22,6 @@ class BaseClass extends React.Component {
 
 // Constructor
     constructor(props) {
-        console.log('BaseClass.constructor');
         super(props);
         this.path = new Path(props.path);
         this.title = typeof(this.path.last) != 'undefined' ? this.path.last : this.path.first;
@@ -31,7 +30,7 @@ class BaseClass extends React.Component {
 
 // Operations
     componentWillMount() {
-        console.log('BaseClass.componentWillMount');
+        //console.log('BaseClass.componentWillMount');
     }
 
     render() {
@@ -39,20 +38,20 @@ class BaseClass extends React.Component {
         return this.renderContainer();
     }
 
-    componentDidMount() {
+    /*componentDidMount() {
         console.log('BaseClass.componentDidMount');
     }
 
     componentWillReceiveProps(nextProps) {
         console.log('BaseClass.componentWillReceiveProps');
-    }
+    }*/
 
-    shouldComponentUpdate(nextProps,nextState) {
-        console.log('BaseClass.shouldComponentUpdate');
+    /*shouldComponentUpdate(nextProps,nextState) {
+        //console.log('BaseClass.shouldComponentUpdate');
         return true;
-    }
+    }*/
 
-    componentWillUpdate(nextProps,nextState) {
+    /*componentWillUpdate(nextProps,nextState) {
         console.log('BaseClass.componentWillUpdate');
     }
 
@@ -66,7 +65,7 @@ class BaseClass extends React.Component {
 
     componentDidCatch(error,info) {
         console.log('BaseClass.componentDidCatch');
-    }
+    }*/
 
     renderContainer() {
         console.log('BaseClass.renderContainer');
@@ -80,11 +79,11 @@ class BaseClass extends React.Component {
     }
 
     renderHeader() {
-        console.log('BaseClass.renderHeader');
+
     }
 
     renderBody() {
-        console.log('BaseClass.renderBody');
+        
     }
 
 

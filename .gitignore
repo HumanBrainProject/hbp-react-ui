@@ -9,3 +9,6 @@ tests.js
 webpack.config.js
 webpack.config.tests.js
 *.bak
+package-lock.json
+jsconfig.json
+.DS_Store
