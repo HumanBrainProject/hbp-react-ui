@@ -24,7 +24,7 @@
   },
   "dependencies": {},
   "scripts": {
-    "build": "babel src --out-dir dist",
+    "build": "babel src --out-dir dist --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "npm run build"
   },

@@ -1,56 +1,39 @@
 ///////////////////////////////////////////////////////////
 // File        : HorizontalInputText.js
 // Description : 
-
-// Imports : 
-
 import React from 'react';
-import { FormControl } from 'react-bootstrap';
-import { FormGroup } from 'react-bootstrap';
-import { InputGroup } from 'react-bootstrap';
+import { FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 
-import { observable, isObservableArray } from 'mobx';
-import { observer, action } from 'mobx-react';
-
-import InputTextStyles from './InputTextStyles';
 import InputText from './InputText';
 
-// Class Definition
-@observer
-export default
-class HorizontalInputText extends InputText {
-// Attributes
+export default class HorizontalInputText extends InputText {
 
-// Constructor
+    // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('HorizontalInputText.constructor: ' + JSON.stringify(props));
+        //Debug
+        if (typeof _hbp_debug_ !== "undefined") console.log('HorizontalInputText.constructor: ' + JSON.stringify(props));
         super(props);
-        this.title = props.title || this.title;
     }
 
-
-// Operations
+    // Operations
     render() {
+        const title = props.title || this.title;
+
         return (
-            <div style={this.style}>
+            <div className="HBPHorizontalInputText">
                 <FormGroup>
                     <InputGroup>
-                        <InputGroup.Addon>{this.title}</InputGroup.Addon>
+                        <InputGroup.Addon>{title}</InputGroup.Addon>
                         <FormControl
-                            type='text'
-                            placeholder='type...'
-                            title={this.description}
+                            type="text"
+                            placeholder="type..."
+                            title={this.props.description}
                             onChange={this.onChange.bind(this)}
-                            value={this.value}
-                            />
+                            value={this.state.value}/>
                     </InputGroup>
                 </FormGroup>
             </div>
         );
     }
 
-
 }
-
-// Exports
-

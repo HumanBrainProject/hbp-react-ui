@@ -1,0 +1,65 @@
+/* StyleContainer */
+.HBPBaseClass,
+.HBPInputText,
+.HBPSelect,
+.HBPMultiSelect,
+.HBPStaticText,
+.HBPDynamicList,
+.HBPDatePicker{
+  margin: 0 2px 2px 0;
+  width: 168px;
+}
+
+.HBPBaseClass .Panel,
+.HBPInputText .Panel,
+.HBPSelect .Panel,
+.HBPMultiSelect .Panel,
+.HBPStaticText .Panel,
+.HBPDynamicList .Panel,
+.HBPDatePicker .Panel{
+  text-align: center;
+}
+
+.HBPDatePicker .Panel{
+  padding-bottom: 8px;
+}
+
+.HBPSelect .FormGroup,
+.HBPMultiSelect .FormGroup{
+  margin-bottom: 0;
+}
+
+.HBPDatePicker .Panel .panel-body{
+  min-height: 46px; 
+  height: 46px;
+}
+
+
+.HBPDynamicList .Panel .panel-heading {
+  padding: 3px 0;
+}
+.HBPDynamicList .Panel .panel-body {
+  min-height: 54px; 
+  height: 54px; 
+  overflow-y: auto;
+}
+.HBPDynamicList .header{
+  text-align: center;
+}
+.HBPDynamicList .items{
+  min-height: 10px;
+}
+.HBPDynamicList .item{
+  text-align: left;
+}
+.HBPDynamicList .item-icon{
+  margin-left: 8px;
+}
+.HBPDynamicList .btn-custom {
+  padding: 2px 12px;
+  background-color: #428bca;
+  color: white;
+}
+.HBPDynamicList .ModalBody {
+  text-align: center;
+}

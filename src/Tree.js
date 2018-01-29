@@ -1,25 +1,22 @@
 ///////////////////////////////////////////////////////////
 // File        : Tree.js
 // Description : 
-
-// Imports : 
-
 import React from 'react';
 
 import _ from 'lodash';
 import {FormControl, FormGroup, ControlLabel, Glyphicon} from 'react-bootstrap';
 
-import TreeStyles from './TreeStyles';
 import BaseClass from './BaseClass';
 import NameValue from './NameValue';
 
 export default class Tree extends BaseClass {
 
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor: ' + JSON.stringify(props));
+        //Debug
+        if (typeof _hbp_debug_ !== "undefined") console.log('Tree.constructor: ' + JSON.stringify(props));
         super(props);
         this.state = {query:null};
-        this.timer = null;
+        this.timer = null; //Timer for trigger the actual search from search input query
     }
 
     render() {
@@ -33,7 +30,7 @@ export default class Tree extends BaseClass {
                     </FormControl.Feedback>
                 </FormGroup>
 
-                <TreeBranch 
+                <TreeNode 
                     path={this.props.path}
                     data={this.props.data} 
                     onSelect={this.props.onSelect}
@@ -61,7 +58,7 @@ export default class Tree extends BaseClass {
 
 }
 
-class TreeBranch extends BaseClass {
+class TreeNode extends BaseClass {
 
     constructor(props) {
         super(props);
@@ -80,7 +77,7 @@ class TreeBranch extends BaseClass {
             if(this.state.expand){
                 children = data.children.map((child, index) => {
                     return (
-                        <TreeBranch 
+                        <TreeNode 
                             path={this.props.path}
                             data={child} 
                             onSelect={this.props.onSelect} 
@@ -108,7 +105,7 @@ class TreeBranch extends BaseClass {
 
     componentWillReceiveProps(nextProps) {
         if (typeof(_hbp_debug_) !== 'undefined'){
-            console.log('TreeBranch.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+            console.log('TreeNode.componentWillReceiveProps: ' + JSON.stringify(nextProps));
         }
         this.setState({expand:nextProps.query? !!JSON.stringify(nextProps.data).match(nextProps.query): false});
     }

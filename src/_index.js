@@ -21,3 +21,6 @@ import _StaticText from './StaticText';
 export { _StaticText as StaticText };
 import _Tree from './Tree';
 export { _Tree as Tree };
+
+import _HBPReactUiStyles from './_styles.css';
+export { _HBPReactUiStyles as HBPReactUiStyles };

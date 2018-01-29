@@ -1,89 +1,31 @@
 ///////////////////////////////////////////////////////////
 // File        : StaticText.js
 // Description : 
-
-// Imports : 
-
 import React from 'react';
-import { FormControl } from 'react-bootstrap';
-import { Panel } from 'react-bootstrap';
+import { FormControl, Panel } from 'react-bootstrap';
 
-import { observable, isObservableArray } from 'mobx';
-import { observer, action } from 'mobx-react';
-
-import StaticTextStyles from './StaticTextStyles';
 import BaseClass from './BaseClass';
 
-// Class Definition
-@observer
-export default
-class StaticText extends BaseClass {
-// Attributes
-    @observable value;
+export default class StaticText extends BaseClass {
 
-// Constructor
+    // Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.constructor: ' + JSON.stringify(props));
+        //Debug
+        if (typeof _hbp_debug_ !== "undefined") console.log('StaticText.constructor: ' + JSON.stringify(props));
         super(props);
-        this.value = props.value || '';
-        this.description = props.description || '';
-        this.style = props.style || InputTextStyles.styleContainer();
     }
 
-
-// Operations
-    componentWillMount() {
-    }
-
+    // Operations
     render() {
         return (
-            <div style={this.style}>
-                <Panel header={this.title} bsStyle='info' className='text-center' title={this.description}>
+            <div className="HBPStaticText">
+                <Panel header={this.title} bsStyle="info" title={this.props.description} className="Panel">
                     <FormControl.Static>
-                        {this.value}
+                        {this.props.value}
                     </FormControl.Static>
                 </Panel>
             </div>
         );
     }
 
-    componentDidMount() {
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('StaticText.componentWillReceiveProps: ' + JSON.stringify(nextProps));
-        if (nextProps.value != this.props.value) { // Re-initialised
-            this.value = nextProps.value;
-        }
-    }
-
-    shouldComponentUpdate(nextProps,nextState) {
-        return super.shouldComponentUpdate();
-    }
-
-    componentWillUpdate(nextProps,nextState) {
-    }
-
-    componentDidUpdate(prevProps,prevState) {
-    }
-
-    componentWillUnmount() {
-    }
-
-    componentDidCatch(error,info) {
-    }
-
-    renderContainer() {
-    }
-
-    renderHeader() {
-    }
-
-    renderBody() {
-    }
-
-
 }
-
-// Exports
-
