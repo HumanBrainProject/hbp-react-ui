@@ -18,21 +18,22 @@ class Component extends React.Component {
 
     render() {
         console.log('Component.render');
-        this.items.addFromJSON([{ name: '<Unknown>', value: 'U' }, { name: 'Male', value: 'M' }, { name: 'Female', value: 'F' }, { name: 'Other', value: 'O' }]);
+        // this.items.addFromJSON([{ name: '<Unknown>', value: 'U' }, { name: 'Male', value: 'M' }, { name: 'Female', value: 'F' }, { name: 'Other', value: 'O' }]);
+        this.items.addFromJSON([{ value: '<Unknown>' }, { value: 'Male' }, { value: 'Female' }, { value: 'A very long value, representing Other' }]);
+        const className='col-2 row-1';
         return (
-            <div style={DynamicListStyles.styleTable()}>
-                <div style={DynamicListStyles.styleRowGroup()}>
-                    <div style={DynamicListStyles.styleRow()}>
-                        <div style={DynamicListStyles.styleCell()}>
-                            <DynamicList
-                                path={'/Category/Item'}
-                                onChange={this.onChange.bind(this)} 
-                                items={this.items}
-                                onAddItem={this.onAddItem.bind(this)}
-                                ref={(childComponent) => { this.childComponent = childComponent; }}
-                            />
-                        </div>
-                    </div>
+            <div className='flex-row-wrap'>
+                <div className={className} style={{ backgroundColor: 'orange' }}></div>
+                <div className={className} style={{  }}>
+                    <DynamicList
+                        path={'/Category/Item'}
+                        onChange={this.onChange.bind(this)} 
+                        items={this.items}
+                        onAddItem={this.onAddItem.bind(this)}
+                        description={'Enter an item'}
+                        style={{  }}
+                        ref={(childComponent) => { this.childComponent = childComponent; }}
+                    />
                 </div>
             </div>
         );

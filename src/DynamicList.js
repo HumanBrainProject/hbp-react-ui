@@ -81,13 +81,14 @@ class DynamicList extends BaseClass {
     renderContainer() {
         return (
             <div style={this.style}>
+                <style type='text/css'>{'.DynamicListPanel {}'}</style>
                 <style type='text/css'>{'.DynamicListPanel .panel-heading {padding: 3px 0;}'}</style>
-                <style type='text/css'>{'.DynamicListPanel .panel-body {min-height: 54px; height: 54px; overflow-y: auto;}'}</style>
+                <style type='text/css'>{'.DynamicListPanel .panel-body {}'}</style>
                 <Panel className='DynamicListPanel' header={this.props.header || this.renderHeader()} bsStyle='info'>
-                    <div style={{ minheight: '10px' }}>
+                    <div>
                         <Droppable
                             enabled={true}
-                            style={{height: '20px'}}
+                            className={'flex-row-wrap row-single-body y_scroll'}
                             types={['data']}
                             onDrop={this.onDrop.bind(this)}>
                             {this.renderBody()}
@@ -100,11 +101,11 @@ class DynamicList extends BaseClass {
                     </Modal.Header>
                     <Modal.Body>
                         <div className='text-center'>
-                        <FormControl
-                            type='text'
-                            placeholder='type...'
-                            onChange={this.onChange.bind(this)}
-                            autoFocus={true}
+                            <FormControl
+                                type='text'
+                                placeholder='type...'
+                                onChange={this.onChange.bind(this)}
+                                autoFocus={true}
                             />
                         </div>
                     </Modal.Body>
@@ -145,9 +146,9 @@ class DynamicList extends BaseClass {
     renderBody() {
         return this.items.map((item, index) => {
             return (
-                <div key={item.$value} className='text-left'>
+                <div key={item.$value} className={'flex-item'}>
                     <Button onClick={this.removeFromList.bind(this, index)}>
-                        {item.$value}
+                        {item.$name || item.$value}
                         <Glyphicon glyph='remove' style={{ marginLeft: '8px' }} />
                     </Button>
                 </div>

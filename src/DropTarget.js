@@ -70,7 +70,7 @@ class DropTarget extends DynamicList {
             );
 
         } else {
-            return (<div className='text-center' style={{color: 'silver'}}>drop {this.title} here</div>);
+            return (<div className='text-center' style={{color: 'silver', width: '100%'}}>drop <strong>{this.title}</strong> here</div>);
         }
     }
 

@@ -20,20 +20,19 @@ class Component extends React.Component {
 
     render() {
         console.log('Component.render');
+        const className='col-2 row-1';
         return (
-            <div style={SelectStyles.styleTable()}>
-                <div style={SelectStyles.styleRowGroup()}>
-                    <div style={SelectStyles.styleRow()}>
-                        <div style={SelectStyles.styleCell()}>
-                            <Select
-                                path='/Category/Item'
-                                onChange={this.onChange.bind(this)} 
-                                options={this.options}
-                                item={this.options[2]}
-                                ref={(childComponent) => { this.childComponent = childComponent; }}
-                            />
-                        </div>
-                    </div>
+            <div className='flex-row-wrap'>
+                <div className={className} style={{ backgroundColor: 'orange' }}></div>
+                <div className={className} style={{  }}>
+                    <Select
+                        path='/Category/Item'
+                        onChange={this.onChange.bind(this)} 
+                        options={this.options}
+                        item={this.options[2]}
+                        style={{  }}
+                        ref={(childComponent) => { this.childComponent = childComponent; }}
+                    />
                 </div>
             </div>
         );

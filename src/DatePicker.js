@@ -37,9 +37,13 @@ class DatePicker extends BaseClass {
     render() {
         return (
             <div style={this.style}>
-                <style type='text/css'>{'.DatePickerPanel .panel-body {min-height: 46px; height: 46px; padding: 15px 5px;}'}</style>
-                <Panel className='text-center DatePickerPanel' header={this.title} bsStyle='info' title={this.props.description} style={{ paddingBottom: '8px' }}>
-                    <input type='date' style={{width: '140px'}} onChange={this.onChange.bind(this)} value={this.item.$value}/>
+                <style type='text/css'>{'.DatePickerPanel, .panel {}'}</style>
+                <style type='text/css'>{'.DatePickerPanel .panel-heading {}'}</style>
+                <style type='text/css'>{'.DatePickerPanel .panel-body {}'}</style>
+                <Panel className='text-center DatePickerPanel' header={this.title} bsStyle='info' title={this.props.description}>
+                    <div className={'row-single-body'}>
+                        <input type='date' style={{width: '140px'}} onChange={this.onChange.bind(this)} value={this.item.$value}/>
+                    </div>
                 </Panel>
             </div>
         );

@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { FormControl } from 'react-bootstrap';
+import { FormGroup } from 'react-bootstrap';
 import { Panel } from 'react-bootstrap';
 
 import { observable, isObservableArray } from 'mobx';
@@ -39,12 +40,14 @@ class InputText extends BaseClass {
         return (
             <div style={this.style}>
                 <Panel header={this.title} bsStyle='info' className='text-center' title={this.description}>
-                    <FormControl
-                        type='text'
-                        placeholder='type...'
-                        onChange={this.onChange.bind(this)}
-                        value={this.item.$value}
-                        />
+                    <FormGroup controlId='formControlsText' className={'row-single-body'} style={{ marginBottom: '0' }}>
+                        <FormControl
+                            type='text'
+                            placeholder='type...'
+                            onChange={this.onChange.bind(this)}
+                            value={this.item.$value}
+                            />
+                    </FormGroup>
                 </Panel>
             </div>
         );

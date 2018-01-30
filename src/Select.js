@@ -43,7 +43,7 @@ class Select extends BaseClass {
         return (
             <div style={this.style}>
                 <Panel header={this.title} bsStyle='info' className='text-center' title={this.props.description}>
-                    <FormGroup controlId='formControlsSelect' style={{ marginBottom: '0' }}>
+                    <FormGroup controlId='formControlsSelect' className={'row-single-body'} style={{ marginBottom: '0' }}>
                         <FormControl
                             componentClass='select'
                             placeholder='select'
