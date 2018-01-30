@@ -1,112 +1,120 @@
-///////////////////////////////////////////////////////////
-// File        : Tree.js
-// Description : 
-
-// Imports : 
-
 import React from 'react';
 
-import { observable, isObservableArray, toJS } from 'mobx';
-import { observer } from 'mobx-react';
+import _ from 'lodash';
+import {FormControl, FormGroup, ControlLabel, Glyphicon} from 'react-bootstrap';
 
-import TreeStyles from './TreeStyles';
 import BaseClass from './BaseClass';
-import { NameValue, NameValueArray } from './NameValue';
+import NameValue from './NameValue';
 
-// Class Definition
-@observer
-export default
-class Tree extends BaseClass {
-// Attributes
-    @observable data;
-    @observable class = 'glyphicon glyphicon-plus';
-    @observable displayChildren = { display: 'none' };
+export default class Tree extends BaseClass {
 
-// Constructor
     constructor(props) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.constructor');
+        //Debug
+        if (typeof _hbp_debug_ !== "undefined") console.log('Tree.constructor: ' + JSON.stringify(props));
         super(props);
-        this.data = props.data || {};
-        this.style = props.style || TreeStyles.styleContainer();
-    }
-
-
-// Operations
-    componentWillMount() {
+        this.state = {query:null};
+        this.timer = null; //Timer for trigger the actual search from search input query
     }
 
     render() {
-        const name = this.data.name;
-        const value = this.data.value;
+        return (
+            <div className="Tree">
+                <FormGroup controlId="Tree Node Search">
+                    <ControlLabel>Search a node (please enter at least 3 characters)</ControlLabel>
+                    <FormControl type="text" onChange={this.handleChange.bind(this)}/>
+                    <FormControl.Feedback>
+                        <Glyphicon glyph="search" />
+                    </FormControl.Feedback>
+                </FormGroup>
+
+                <TreeNode 
+                    path={this.props.path}
+                    data={this.props.data} 
+                    onSelect={this.props.onSelect}
+                    query={this.state.query}
+                />
+            </div>
+        );
+    }
+
+    handleChange(e){
+        const self = this;
+        const newQuery = e.target.value;
+        if(this.timer){
+            clearTimeout(this.timer);
+        }
+        let newQueryRegexp
+        try{
+            newQueryRegexp = newQuery.length >= 3? new RegExp(":\".*?"+newQuery+".*?\"","i"): null;
+            this.timer = setTimeout(function(){
+                self.setState({query: newQueryRegexp});
+            }, 750);
+        }
+        catch(e){ }
+    }
+
+}
+
+class TreeNode extends BaseClass {
+
+    constructor(props) {
+        super(props);
+        this.state = {expand: props.query? !!JSON.stringify(props.data).match(props.query): false};
+    }
+
+    render() {
+        let data = this.props.data || {};
+
+        const name = data.name;
+        const value = data.value;
+
         let children = undefined;
-        if (this.data.children != undefined) {
-            children = this.data.children.map((child, index) => {
-                return (
-                    <Tree 
-                        path={this.props.path}
-                        data={child} 
-                        onChange={this.props.onChange} 
-                        key={index}
-                    />
-                );
-            });
+
+        if (data.children !== undefined) {
+            if(this.state.expand){
+                children = data.children.map((child, index) => {
+                    return (
+                        <TreeNode 
+                            path={this.props.path}
+                            data={child} 
+                            onSelect={this.props.onSelect} 
+                            key={index}
+                            query={this.props.query}
+                        />
+                    );
+                });
+            } else {
+                children = [];
+            }
         }
         return (
             <li style={{ listStyleType: 'none' }}>
-                { children != undefined && <i className={this.class} style={{ marginRight: '0.5em' }} onClick={this.toggle.bind(this)}></i> }
-                <a onClick={this.onChange.bind(this, name, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
-                { children != undefined && <ul style={Object.assign({}, { marginLeft: '1em' }, this.displayChildren)}>{children}</ul> }
+                { children != undefined && <i className={"glyphicon "+(this.state.expand?"glyphicon-minus":"glyphicon-plus")} style={{ marginRight: '0.5em' }} onClick={this.toggle.bind(this)}></i> }
+                <a onClick={this.onSelect.bind(this, name, value)} style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>{name}</a>
+                { (children != undefined && this.state.expand) && <ul style={{ marginLeft: '1em' }}>{children}</ul> }
             </li>
         )
     }
 
-    componentDidMount() {
+    shouldComponentUpdate(nextProps, nextState){
+        return !_.isEqual(this.props, nextProps) || !_.isEqual(this.state, this.nextState);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (typeof(_hbp_debug_) != 'undefined') console.log('Tree.componentWillReceiveProps');
-        super.componentWillReceiveProps(nextProps);
-        if (nextProps.data != this.props.data) { // Re-initialised
-            this.data = nextProps.data;
+        if (typeof(_hbp_debug_) !== 'undefined'){
+            console.log('TreeNode.componentWillReceiveProps: ' + JSON.stringify(nextProps));
+        }
+        this.setState({expand:nextProps.query? !!JSON.stringify(nextProps.data).match(nextProps.query): false});
+    }
+
+    onSelect(name,value) {
+        if(this.props.onSelect){
+            this.props.onSelect(this.props.path, new NameValue(name, value));
         }
     }
 
-    shouldComponentUpdate(nextProps,nextState) {
-        return super.shouldComponentUpdate();
-    }
-
-    componentWillUpdate(nextProps,nextState) {
-    }
-
-    componentDidUpdate(prevProps,prevState) {
-    }
-
-    componentWillUnmount() {
-    }
-
-    componentDidCatch(error,info) {
-    }
-
-    renderContainer() {
-    }
-
-    renderHeader() {
-    }
-
-    renderBody() {
-    }
-
-    onChange(name,value) {
-        this.props.onChange(this.props.path, new NameValue(name, value));
-    }
-
     toggle() {
-        this.class = ( this.class == 'glyphicon glyphicon-plus' ? 'glyphicon glyphicon-minus' : 'glyphicon glyphicon-plus' )
-        this.displayChildren.display = ( this.displayChildren.display == 'none' ? 'block' : 'none' );
+        this.setState({expand: !this.state.expand});
     }
-
 
 }
-
-// Exports
-
