@@ -1,6 +1,15 @@
 ///////////////////////////////////////////////////////////
 // File        : DropTarget.js
 // Description : 
+/**
+ * DropTarget is derived from DynamicList and allows the list to be populated by drag&drop.
+ * @class DropTarget
+ * @property {function} onChange The event-handler for a change in value
+ * @property {string} path The path to specify when reporting the value
+ * @property {object} item A NameValue object specifying the initial date value
+ * @property {object} style Styling overrides
+ * @property {string} description The tooltip to display
+ */
 
 // Imports : 
 

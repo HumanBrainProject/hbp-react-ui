@@ -1,6 +1,16 @@
 ///////////////////////////////////////////////////////////
 // File        : Select.js
 // Description : 
+/**
+ * Select allows a value from a dropdown list to be selected.
+ * @class Select
+ * @property {function} onChange The event-handler for a change in the selected value
+ * @property {string} path The path to specify when reporting the value
+ * @property {array} options A NameValueArray of the options to choose from
+ * @property {object} item A NameValue object specifying the initial value
+ * @property {object} style Styling overrides
+ * @property {string} description The tooltip to display
+ */
 
 // Imports : 
 

@@ -1,6 +1,16 @@
 ///////////////////////////////////////////////////////////
 // File        : DynamicList.js
 // Description : 
+/**
+ * DynamicList allows selected text to be added to a list as individual buttons. These buttons can be added manually and also deleted.
+ * @class DynamicList
+ * @property {function} onChange The event-handler for a change in value
+ * @property {string} path The path to specify when reporting the value
+ * @property {array} items A NameValueArray of the initial values
+ * @property {function} onAddItem The callback to handle adding a new item
+ * @property {object} style Styling overrides
+ * @property {string} description The tooltip to display
+ */
 
 // Imports : 
 

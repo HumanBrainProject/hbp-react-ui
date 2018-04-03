@@ -1,6 +1,15 @@
 ///////////////////////////////////////////////////////////
 // File        : Tree.js
 // Description : 
+/**
+ * Tree displays an expandable/collapsible hierarchical tree and allows nodes to be selected.
+ * @class Tree
+ * @property {function} onChange The event-handler for each selection
+ * @property {string} path The path to specify when reporting the value
+ * @property {object} data A JSON object representing the hierarchy to be displayed, with each node in the form {name, value, children: []}
+ * @property {object} style Styling overrides
+ * @property {string} description The tooltip to display
+ */
 
 // Imports : 
 

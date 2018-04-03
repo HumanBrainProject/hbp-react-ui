@@ -1,6 +1,16 @@
 ///////////////////////////////////////////////////////////
 // File        : HorizontalInputText.js
 // Description : 
+/**
+ * HorizontalInputText is derived from InputText and displays a title to the left of the input.
+ * @class HorizontalInputText
+ * @property {function} onChange The event-handler for a change in value
+ * @property {string} path The path to specify when reporting the value
+ * @property {string} title The title
+ * @property {object} item A NameValue object specifying the initial value
+ * @property {object} style Styling overrides
+ * @property {string} description The tooltip to display
+ */
 
 // Imports : 
 

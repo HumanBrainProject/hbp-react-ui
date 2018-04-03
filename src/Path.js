@@ -1,3 +1,14 @@
+/**
+ * Path breaks down the supplied path into the underlying elements.
+ * @param {string} path The path to an element in a JSON structure e.g. '/Category/Item'
+ * @returns {object} An object that can be queried for individual elements
+ * @todo
+ * Needs to work for all the below i.e unit test
+ * /SpecimenGroup/Subjects/0/Samples/0/ParcellationAtlas
+ * /SpecimenGroup/Subjects/0/Sex
+ * /SpecimenGroup/Subjects
+ * /SpecimenGroup
+*/
 export default class Path {
     constructor(path) {
         try {
@@ -28,13 +39,4 @@ export default class Path {
         return this.matches.length - 1; // The number of path elements
     }
 }
-
-/* Needs to work for all the below i.e unit test
-
-/SpecimenGroup/Subjects/0/Samples/0/ParcellationAtlas
-/SpecimenGroup/Subjects/0/Sex
-/SpecimenGroup/Subjects
-/SpecimenGroup
-
-*/
 

@@ -76,19 +76,19 @@ QUnit.module('Select', function (hooks) {
     //     assert.ok(this.component.childComponent.options.length == length, 'passed');
     // });
 
-    QUnit.test('removeOption', function(assert) {
-        console.log('QUnit.removeOption');
-        var length = this.component.childComponent.options.length;
-        this.component.childComponent.options.remove({ name: 'Male', value: 'M' });
-        assert.ok(this.component.childComponent.options.length == --length, 'passed');
-    });
+    // QUnit.test('removeOption', function(assert) {
+    //     console.log('QUnit.removeOption');
+    //     var length = this.component.childComponent.options.length;
+    //     this.component.childComponent.options.remove({ name: 'Male', value: 'M' });
+    //     assert.ok(this.component.childComponent.options.length == --length, 'passed');
+    // });
 
-    QUnit.test('replaceOptions', function(assert) {
-        console.log('QUnit.replaceOptions');
-        this.component.childComponent.options = new NameValueArray(); // Only works because component.options is @observable
-        this.component.childComponent.options.add('Replacement', 'R');
-        assert.ok(this.component.childComponent.options.length == 1, 'passed');
-    });
+    // QUnit.test('replaceOptions', function(assert) {
+    //     console.log('QUnit.replaceOptions');
+    //     this.component.childComponent.options = new NameValueArray(); // Only works because component.options is @observable
+    //     this.component.childComponent.options.add('Replacement', 'R');
+    //     assert.ok(this.component.childComponent.options.length == 1, 'passed');
+    // });
 
     // hooks.after(function (assert) { // Not getting called here for some reason
     //     console.log('QUnit.hooks.after');

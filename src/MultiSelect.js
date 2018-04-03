@@ -1,6 +1,16 @@
 ///////////////////////////////////////////////////////////
 // File        : MultiSelect.js
 // Description : 
+/**
+ * MultiSelect multiple selections from a dropdown list to be added to a list and also deleted.
+ * @class MultiSelect
+ * @property {function} onChange The event-handler for a change in value
+ * @property {string} path The path to specify when reporting the value
+ * @property {array} options A NameValueArray of the options to choose from
+ * @property {array} items A NameValueArray of the initial values
+ * @property {object} style Styling overrides
+ * @property {string} description The tooltip to display
+ */
 
 // Imports : 
 

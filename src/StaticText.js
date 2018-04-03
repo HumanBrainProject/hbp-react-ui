@@ -1,6 +1,14 @@
 ///////////////////////////////////////////////////////////
 // File        : StaticText.js
 // Description : 
+/**
+ * StaticText displays a simple static text value
+ * @class StaticText
+ * @property {string} path The path to specify when reporting the value
+ * @property {object} item A NameValue object specifying the initial value
+ * @property {object} style Styling overrides
+ * @property {string} description The tooltip to display
+ */
 
 // Imports : 
 
